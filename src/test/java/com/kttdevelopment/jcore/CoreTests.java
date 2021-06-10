@@ -64,7 +64,7 @@ public final class CoreTests {
 
     @Test
     public void testInputMultipleSpaces(){
-        Assertions.assertEquals("I have multiple spaces", Workflow.getInput("multiple spaces variable"));
+        Assertions.assertEquals("I have multiple spaces", Workflow.getInput("multiple space variable"));
     }
 
     @Test

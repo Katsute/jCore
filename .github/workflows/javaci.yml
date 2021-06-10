@@ -15,8 +15,8 @@ jobs:
       fail-fast: false
     env:
       INPUT_MY-INPUT: 'val'
-      INPUT_MY INPUY: 'val'
-      INPUT_SPECIAL CHARS_' ": "'  \"\\ response "
+      INPUT_MY INPUT: 'val'
+      INPUT_SPECIAL CHARS_' \\": "'  \"\\ response "
       INPUT_MULTIPLE SPACE VARIABLE: 'I have multiple spaces'
       INPUT_BOOLEAN_INPUT: 'true'
       INPUT_TRUE1: 'true'
@@ -27,7 +27,10 @@ jobs:
       INPUT_FALSE3: 'FALSE'
       INPUT_WRONG_BOOLEAN_INPUT: 'wrong'
       INPUT_WITH_TRAILING_WHITESPACE: '  some val  '
-      INPUT_MY_INPUT_LIST: 'val1\nval2\nval3'
+      INPUT_MY_INPUT_LIST: |
+        val1
+        val2
+        val3
 
     steps:
       - name: 📦 Prepate Git Repo
