@@ -29,10 +29,10 @@ jobs:
         run: mvn test -fae --no-transfer-progress
         with:
           INPUT_my-input: 'val'
-          INPUT_'my input': 'val'
+          INPUT_my input: 'val'
           INPUT_missing: ''
-          INPUT_"special chars_' \"'": "\'  \"\\ response "
-          INPUT_'multiple spaces variable': 'I have multiple spaces'
+          INPUT_special chars_' ": "\'  \"\\ response "
+          INPUT_multiple spaces variable: 'I have multiple spaces'
           INPUT_boolean_input: 'true'
           INPUT_true1: 'true'
           INPUT_true2: 'True'
