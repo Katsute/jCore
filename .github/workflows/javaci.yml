@@ -1,0 +1,50 @@
+name: Java CI
+on:
+  push: {}
+  pull_request:
+    branches: [main]
+permissions: read-all
+
+jobs:
+  java_ci:
+    name: Java CI
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        jdk: [8, 9, 11, 16]
+      fail-fast: false
+
+    steps:
+      - name: 📦 Prepate Git Repo
+        uses: actions/checkout@v2.3.4
+
+      - name: ☕ Install OpenJDK
+        uses: AdoptOpenJDK/install-jdk@v1.1.1
+        with:
+          version: ${{ matrix.jdk }}
+          architecture: x64
+
+      - id: mvn
+        name: ✔ Test with Maven
+        run: mvn test -fae --no-transfer-progress
+        with:
+          INPUT_my-input: 'val'
+          INPUT_'my input': 'val'
+          INPUT_missing: ''
+          INPUT_"special chars_' \"'": "\'  \"\\ response "
+          INPUT_'multiple spaces variable': 'I have multiple spaces'
+          INPUT_boolean_input: 'true'
+          INPUT_true1: 'true'
+          INPUT_true2: 'True'
+          INPUT_true3: 'TRUE'
+          INPUT_false1: 'false'
+          INPUT_false2: 'False'
+          INPUT_false3: 'FALSE'
+          INPUT_wrong_boolean_input: 'wrong'
+          INPUT_with_trailing_whitespace: '  some val  '
+          INPUT_my_input_list: 'val1\nval2\nval3'
+
+      - name: ✔ Test Workflow
+        if: steps.mvn.outputs != '1.01'
+        run: |
+          echo "::set-failed::error"
