@@ -99,7 +99,7 @@ public abstract class Workflow {
     }
 
     public static void setOutput(final String name, final Object value){
-        issueCommand("set-output", new HashMap<String,Object>(){{
+        issueCommand("set-output", new LinkedHashMap<String,Object>(){{
             put("name", name);
         }}, value);
     }
@@ -127,7 +127,7 @@ public abstract class Workflow {
     }
 
     public static void error(final Throwable throwable){
-        issueCommand("error", new HashMap<String,Object>(){{
+        issueCommand("error", new LinkedHashMap<String,Object>(){{
             put("file", throwable.getStackTrace()[0].getFileName());
             put("line", throwable.getStackTrace()[0].getLineNumber());
             put("col", 0);
@@ -136,7 +136,7 @@ public abstract class Workflow {
 
     public static void error(final String error){
         final StackTraceElement trace = new Throwable().getStackTrace()[1];
-        issueCommand("error", new HashMap<String,Object>(){{
+        issueCommand("error", new LinkedHashMap<String,Object>(){{
             put("file", trace.getFileName());
             put("line", trace.getLineNumber());
             put("col", 0);
@@ -144,7 +144,7 @@ public abstract class Workflow {
     }
 
     public static void warning(final Throwable throwable){
-        issueCommand("warning", new HashMap<String,Object>(){{
+        issueCommand("warning", new LinkedHashMap<String,Object>(){{
             put("file", throwable.getStackTrace()[0].getFileName());
             put("line", throwable.getStackTrace()[0].getLineNumber());
             put("col", 0);
@@ -153,7 +153,7 @@ public abstract class Workflow {
 
     public static void warning(final String warning){
         final StackTraceElement trace = new Throwable().getStackTrace()[1];
-        issueCommand("warning", new HashMap<String,Object>(){{
+        issueCommand("warning", new LinkedHashMap<String,Object>(){{
             put("file", trace.getFileName());
             put("line", trace.getLineNumber());
             put("col", 0);
@@ -185,7 +185,7 @@ public abstract class Workflow {
     // ----- state ---------------
 
     public static void saveState(final String name, final Object value){
-        issueCommand("save-state", new HashMap<String,Object>(){{
+        issueCommand("save-state", new LinkedHashMap<String,Object>(){{
             put("name", name);
         }}, value);
     }
