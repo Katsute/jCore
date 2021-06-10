@@ -11,6 +11,11 @@ public final class CoreTests {
     private static final PrintStream SysOUT = System.out;
     private final ByteArrayOutputStream OUT = new ByteArrayOutputStream();
 
+    @BeforeAll
+    public static void beforeAll(){
+        System.out.println(System.getenv());
+    }
+
     @BeforeEach
     public void beforeEach(){
         System.setOut(new PrintStream(new MultiOutputStream(SysOUT, OUT)));

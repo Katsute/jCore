@@ -130,6 +130,7 @@ public abstract class Workflow {
         issueCommand("error", new HashMap<String,Object>(){{
             put("file", throwable.getStackTrace()[0].getFileName());
             put("line", throwable.getStackTrace()[0].getLineNumber());
+            put("col", 0);
         }}, throwable.getMessage());
     }
 
@@ -138,6 +139,7 @@ public abstract class Workflow {
         issueCommand("error", new HashMap<String,Object>(){{
             put("file", trace.getFileName());
             put("line", trace.getLineNumber());
+            put("col", 0);
         }}, error);
     }
 
@@ -145,6 +147,7 @@ public abstract class Workflow {
         issueCommand("warning", new HashMap<String,Object>(){{
             put("file", throwable.getStackTrace()[0].getFileName());
             put("line", throwable.getStackTrace()[0].getLineNumber());
+            put("col", 0);
         }}, throwable.getMessage());
     }
 
@@ -153,6 +156,7 @@ public abstract class Workflow {
         issueCommand("warning", new HashMap<String,Object>(){{
             put("file", trace.getFileName());
             put("line", trace.getLineNumber());
+            put("col", 0);
         }}, warning);
     }
 
