@@ -57,7 +57,9 @@ jobs:
       - name: ✔ Test Output
         if: steps.mvn.outputs != '1.01' && steps.mvn.outputs != 'false' && steps.mvn.outputs != 'some value'
         run: |
-          echo "::error:: Output is missing"
+          echo "::error::Output is missing"
 
       - name: ✔ Test State
-        if: env.STATE_state_1
+        if: env.STATE_state_1 != '1' && env.STATE_state_1 != 'true' && env.STATE_state_1 != 'some value'
+        run: |
+          echo "::error::Output is missing"
