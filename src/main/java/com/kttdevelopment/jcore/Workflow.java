@@ -18,6 +18,8 @@
 
 package com.kttdevelopment.jcore;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.*;
 
 public abstract class Workflow {
@@ -25,10 +27,6 @@ public abstract class Workflow {
     private static final String workspace = System.getenv("GITHUB_WORKSPACE");
 
     // ----- variables ---------------
-
-    public static void exportVariable(final String name, final Object value){
-        throw new UnsupportedOperationException("Export variable is not supported");
-    }
 
     public static void addMask(final String mask){
         setSecret(mask);
@@ -121,7 +119,11 @@ public abstract class Workflow {
     }
 
     public static boolean isDebug(){
-        return System.getenv("RUNNER_DEBUG").equals("1");
+        try{
+            return System.getenv("RUNNER_DEBUG").equals("1");
+        }catch(final Throwable e){
+            return false;
+        }
     }
 
     public static void debug(final String debug){
@@ -133,16 +135,17 @@ public abstract class Workflow {
             put("file", getFile(throwable.getStackTrace()[0]));
             put("line", throwable.getStackTrace()[0].getLineNumber());
             put("col", 1);
-        }}, throwable.getMessage());
+        }}, getTraceMessage(throwable.getStackTrace(), throwable.getMessage()));
     }
 
     public static void warning(final String warning){
-        final StackTraceElement trace = new Throwable().getStackTrace()[1];
+        final Throwable throwable = new Throwable(warning);
+        final StackTraceElement trace = throwable.getStackTrace()[1];
         issueCommand("warning", new LinkedHashMap<String,Object>(){{
             put("file", getFile(trace));
             put("line", trace.getLineNumber());
             put("col", 1);
-        }}, warning);
+        }}, getTraceMessage(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), warning));
     }
 
     public static void error(final Throwable throwable){
@@ -150,16 +153,17 @@ public abstract class Workflow {
             put("file", getFile(throwable.getStackTrace()[0]));
             put("line", throwable.getStackTrace()[0].getLineNumber());
             put("col", 1);
-        }}, throwable.getMessage());
+        }}, getTraceMessage(throwable.getStackTrace(), throwable.getMessage()));
     }
 
     public static void error(final String error){
-        final StackTraceElement trace = new Throwable().getStackTrace()[1];
-        issueCommand("error", new LinkedHashMap<String,Object>(){{
+        final Throwable throwable = new Throwable(error);
+        final StackTraceElement trace = throwable.getStackTrace()[1];
+        issueCommand("warning", new LinkedHashMap<String,Object>(){{
             put("file", getFile(trace));
             put("line", trace.getLineNumber());
             put("col", 1);
-        }}, error);
+        }}, getTraceMessage(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error));
     }
 
     public static void startGroup(final String name){
@@ -202,6 +206,16 @@ public abstract class Workflow {
         issueCommand(token);
     }
 
+    public static void addMatcher(final String matcher){
+        issueCommand("add-matcher", null, matcher);
+    }
+
+    public static void removeMatcher(final String owner){
+        issueCommand("remove-matcher", new LinkedHashMap<String,Object>(){{
+            put("owner", owner);
+        }}, null);
+    }
+
     // ----- utility ---------------
 
     @SuppressWarnings("ConstantConditions")
@@ -214,6 +228,33 @@ public abstract class Workflow {
             .replaceFirst("target/classes", "src/main/java")
             .replaceAll("class$", "java");
     }
+
+    private static String getTraceMessage(final StackTraceElement[] stacktrace){
+        return getTraceMessage(stacktrace, null);
+    }
+
+    private static String getTraceMessage(final StackTraceElement[] stacktrace, final String message){
+        final StackTraceElement cause = stacktrace[0];
+        final StringBuilder output = new StringBuilder();
+
+        output.append(getFile(cause))
+              .append("#L").append(cause.getLineNumber());
+        if(message != null)
+            output.append(": ").append(message);
+        output.append('\n');
+
+        boolean first = true;
+        for(final StackTraceElement stackTraceElement : stacktrace){
+            if(!first)
+                output.append("\n\t").append("at").append(' ');
+            first = false;
+            output.append(stackTraceElement.toString());
+        }
+
+        return output.toString();
+    }
+
+    // ----- command ---------------
 
     private static void issueCommand(final String command){
         issueCommand(command, null, null);

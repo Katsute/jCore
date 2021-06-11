@@ -13,7 +13,7 @@ public final class CoreTests {
 
     @BeforeAll
     public static void beforeAll(){
-        System.out.println(System.getenv());
+        System.out.println("::start-group::ENV" + '\n' + System.getenv() + '\n' + "::endgroup::");
     }
 
     @BeforeEach
@@ -24,6 +24,7 @@ public final class CoreTests {
     @AfterEach
     public void afterEach(){
         System.setOut(SysOUT);
+        System.out.println("----- END OF TEST ---------------");
     }
 
     // --------------- variables ---------------
@@ -32,6 +33,14 @@ public final class CoreTests {
     public void testSecret(){
         Workflow.setSecret("secret val");
         Assertions.assertEquals("::add-mask::secret val", OUT.toString().trim());
+        System.out.println("secret val");
+    }
+
+    @Test
+    public void testSecretMask(){
+        Workflow.addMask("secret val");
+        Assertions.assertEquals("::add-mask::secret val", OUT.toString().trim());
+        System.out.println("secret val");
     }
 
     // ----- input ---------------
@@ -142,7 +151,7 @@ public final class CoreTests {
 
     // --------------- results ---------------
 
-    //              (skipped)
+    //              (tested on CI)
 
     // --------------- logging ---------------
 
@@ -276,5 +285,16 @@ public final class CoreTests {
         Assertions.assertEquals("::my-stop-command::", OUT.toString().trim().split("\\n")[1]);
     }
 
+    @Test
+    public void testMatcherAdd(){
+        Workflow.addMatcher("matcher.json");
+        Assertions.assertEquals("::add-matcher::matcher.json", OUT.toString().trim());
+    }
+
+    @Test
+    public void testMatcherRemove(){
+        Workflow.removeMatcher("owner");
+        Assertions.assertEquals("::remove-matcher owner=owner::", OUT.toString().trim());
+    }
 
 }

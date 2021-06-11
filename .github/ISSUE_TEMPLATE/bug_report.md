@@ -13,7 +13,6 @@ assignees: ''
 - [ ] I have checked that this issue is actually a bug and not a feature.
 - [ ] I am running the latest release version.
 
-
 **Release Version:** *Release version or branch commit where the issue occurred.*
 
 
