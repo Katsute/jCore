@@ -11,6 +11,7 @@ public final class CoreTests {
     private static final PrintStream SysOUT = System.out;
     private final ByteArrayOutputStream OUT = new ByteArrayOutputStream();
 
+    @SuppressWarnings("SpellCheckingInspection")
     @BeforeAll
     public static void beforeAll(){
         System.out.println("::start-group::ENV" + '\n' + System.getenv() + '\n' + "::endgroup::");
@@ -186,24 +187,26 @@ public final class CoreTests {
     @Test
     public void testWarning(){
         Workflow.warning("Warning");
-        Assertions.assertTrue(OUT.toString().trim().startsWith("::warning "));
-        Assertions.assertTrue(OUT.toString().trim().endsWith("::Warning"));
+        final String first = OUT.toString().trim().split("%0A")[0];
+        Assertions.assertTrue(first.startsWith("::warning "));
+        Assertions.assertTrue(first.endsWith(": Warning"));
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
     @Test
     public void testWarningEscapes(){
-        Workflow.warning("\r\nwarning\n");
-        Assertions.assertTrue(OUT.toString().trim().startsWith("::warning "));
-        Assertions.assertTrue(OUT.toString().trim().endsWith("::%0D%0Awarning%0A"));
+        Workflow.warning("warning\r");
+        final String first = OUT.toString().trim().split("%0A")[0];
+        Assertions.assertTrue(first.startsWith("::warning "));
+        Assertions.assertTrue(first.endsWith(": warning%0D"));
     }
 
     @Test
     public void testWarningException(){
         final NullPointerException exception = new NullPointerException("NPE");
         Workflow.warning(exception);
-        Assertions.assertTrue(OUT.toString().trim().startsWith("::warning "));
-        Assertions.assertTrue(OUT.toString().trim().endsWith("::NPE"));
+        final String first = OUT.toString().trim().split("%0A")[0];
+        Assertions.assertTrue(first.startsWith("::warning "));
+        Assertions.assertTrue(first.endsWith(": NPE"));
     }
 
     // ----- error ----------
@@ -211,23 +214,26 @@ public final class CoreTests {
     @Test
     public void testError(){
         Workflow.error("Error message");
-        Assertions.assertTrue(OUT.toString().trim().startsWith("::error "));
-        Assertions.assertTrue(OUT.toString().trim().endsWith("::Error message"));
+        final String first = OUT.toString().trim().split("%0A")[0];
+        Assertions.assertTrue(first.startsWith("::error "));
+        Assertions.assertTrue(first.endsWith(": Error message"));
     }
 
     @Test
     public void testErrorEscapes(){
-        Workflow.error("Error message\r\n\n");
-        Assertions.assertTrue(OUT.toString().trim().startsWith("::error "));
-        Assertions.assertTrue(OUT.toString().trim().endsWith("::Error message%0D%0A%0A"));
+        Workflow.error("Error message\r");
+        final String first = OUT.toString().trim().split("%0A")[0];
+        Assertions.assertTrue(first.startsWith("::error "));
+        Assertions.assertTrue(first.endsWith(": Error message%0D"));
     }
 
     @Test
     public void testErrorException(){
         final NullPointerException exception = new NullPointerException("NPE");
         Workflow.error(exception);
-        Assertions.assertTrue(OUT.toString().trim().startsWith("::error "));
-        Assertions.assertTrue(OUT.toString().trim().endsWith("::NPE"));
+        final String first = OUT.toString().trim().split("%0A")[0];
+        Assertions.assertTrue(first.startsWith("::error "));
+        Assertions.assertTrue(first.endsWith(": NPE"));
     }
 
     // ----- group ---------------

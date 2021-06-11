@@ -18,9 +18,8 @@
 
 package com.kttdevelopment.jcore;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.*;
+import java.util.function.Supplier;
 
 public abstract class Workflow {
 
@@ -131,39 +130,53 @@ public abstract class Workflow {
     }
 
     public static void warning(final Throwable throwable){
-        issueCommand("warning", new LinkedHashMap<String,Object>(){{
-            put("file", getFile(throwable.getStackTrace()[0]));
-            put("line", throwable.getStackTrace()[0].getLineNumber());
-            put("col", 1);
-        }}, getTraceMessage(throwable.getStackTrace(), throwable.getMessage()));
+        warning(throwable.getStackTrace(), throwable.getMessage());
     }
 
     public static void warning(final String warning){
-        final Throwable throwable = new Throwable(warning);
-        final StackTraceElement trace = throwable.getStackTrace()[1];
+        final Throwable throwable = new Throwable();
+        warning(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), warning);
+    }
+
+    private static void warning(final StackTraceElement[] trace, final String message){
         issueCommand("warning", new LinkedHashMap<String,Object>(){{
-            put("file", getFile(trace));
-            put("line", trace.getLineNumber());
+            put("file", getFile(trace[0]));
+            put("line", trace[0].getLineNumber());
             put("col", 1);
-        }}, getTraceMessage(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), warning));
+        }}, getTraceMessage(trace, message));
+    }
+
+    public static Supplier<String> junitWarning(final String error){
+        final Throwable throwable = new Throwable();
+        return () -> {
+            warning(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error);
+            return error;
+        };
     }
 
     public static void error(final Throwable throwable){
-        issueCommand("error", new LinkedHashMap<String,Object>(){{
-            put("file", getFile(throwable.getStackTrace()[0]));
-            put("line", throwable.getStackTrace()[0].getLineNumber());
-            put("col", 1);
-        }}, getTraceMessage(throwable.getStackTrace(), throwable.getMessage()));
+        error(throwable.getStackTrace(), throwable.getMessage());
     }
 
     public static void error(final String error){
-        final Throwable throwable = new Throwable(error);
-        final StackTraceElement trace = throwable.getStackTrace()[1];
-        issueCommand("warning", new LinkedHashMap<String,Object>(){{
-            put("file", getFile(trace));
-            put("line", trace.getLineNumber());
+        final Throwable throwable = new Throwable();
+        error(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error);
+    }
+
+    private static void error(final StackTraceElement[] trace, final String message){
+        issueCommand("error", new LinkedHashMap<String,Object>(){{
+            put("file", getFile(trace[0]));
+            put("line", trace[0].getLineNumber());
             put("col", 1);
-        }}, getTraceMessage(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error));
+        }}, getTraceMessage(trace, message));
+    }
+
+    public static Supplier<String> junitError(final String error){
+        final Throwable throwable = new Throwable();
+        return () -> {
+            error(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error);
+            return error;
+        };
     }
 
     public static void startGroup(final String name){
