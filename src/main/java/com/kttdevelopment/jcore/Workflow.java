@@ -132,7 +132,7 @@ public abstract class Workflow {
         issueCommand("warning", new LinkedHashMap<String,Object>(){{
             put("file", getFile(throwable.getStackTrace()[0]));
             put("line", throwable.getStackTrace()[0].getLineNumber());
-            put("col", 0);
+            put("col", 1);
         }}, throwable.getMessage());
     }
 
@@ -141,7 +141,7 @@ public abstract class Workflow {
         issueCommand("warning", new LinkedHashMap<String,Object>(){{
             put("file", getFile(trace));
             put("line", trace.getLineNumber());
-            put("col", 0);
+            put("col", 1);
         }}, warning);
     }
 
@@ -149,7 +149,7 @@ public abstract class Workflow {
         issueCommand("error", new LinkedHashMap<String,Object>(){{
             put("file", getFile(throwable.getStackTrace()[0]));
             put("line", throwable.getStackTrace()[0].getLineNumber());
-            put("col", 0);
+            put("col", 1);
         }}, throwable.getMessage());
     }
 
@@ -158,7 +158,7 @@ public abstract class Workflow {
         issueCommand("error", new LinkedHashMap<String,Object>(){{
             put("file", getFile(trace));
             put("line", trace.getLineNumber());
-            put("col", 0);
+            put("col", 1);
         }}, error);
     }
 

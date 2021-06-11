@@ -40,7 +40,6 @@ jobs:
         with:
           script: |
             console.log("::save-state name=state_val::TEST_1");
-            console.log("::warning file=src/main/java/com/kttdevelopment/jcore/Workflow.java,line=10,col=0::warning");
 
       - name: ☕ Install OpenJDK
         uses: AdoptOpenJDK/install-jdk@v1.1.1
