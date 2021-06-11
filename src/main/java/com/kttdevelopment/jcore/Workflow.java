@@ -22,6 +22,8 @@ import java.util.*;
 
 public abstract class Workflow {
 
+    private static final String workspace = System.getenv("GITHUB_WORKSPACE");
+
     // ----- variables ---------------
 
     public static void exportVariable(final String name, final Object value){
@@ -34,10 +36,6 @@ public abstract class Workflow {
 
     public static void setSecret(final String secret){
         issueCommand("add-mask", secret);
-    }
-
-    public static void addPath(final String name){
-        throw new UnsupportedOperationException("Add path is not supported");
     }
 
     public static String getInput(final String name){
@@ -118,34 +116,21 @@ public abstract class Workflow {
 
     // ----- logging commands ---------------
 
+    public static void info(final String message){
+        System.out.println(message);
+    }
+
     public static boolean isDebug(){
         return System.getenv("RUNNER_DEBUG").equals("1");
     }
 
-   public static void debug(final String debug){
+    public static void debug(final String debug){
         issueCommand("debug", debug);
-    }
-
-    public static void error(final Throwable throwable){
-        issueCommand("error", new LinkedHashMap<String,Object>(){{
-            put("file", throwable.getStackTrace()[0].getFileName());
-            put("line", throwable.getStackTrace()[0].getLineNumber());
-            put("col", 0);
-        }}, throwable.getMessage());
-    }
-
-    public static void error(final String error){
-        final StackTraceElement trace = new Throwable().getStackTrace()[1];
-        issueCommand("error", new LinkedHashMap<String,Object>(){{
-            put("file", trace.getFileName());
-            put("line", trace.getLineNumber());
-            put("col", 0);
-        }}, error);
     }
 
     public static void warning(final Throwable throwable){
         issueCommand("warning", new LinkedHashMap<String,Object>(){{
-            put("file", throwable.getStackTrace()[0].getFileName());
+            put("file", getFile(throwable.getStackTrace()[1]));
             put("line", throwable.getStackTrace()[0].getLineNumber());
             put("col", 0);
         }}, throwable.getMessage());
@@ -154,14 +139,27 @@ public abstract class Workflow {
     public static void warning(final String warning){
         final StackTraceElement trace = new Throwable().getStackTrace()[1];
         issueCommand("warning", new LinkedHashMap<String,Object>(){{
-            put("file", trace.getFileName());
+            put("file", getFile(trace));
             put("line", trace.getLineNumber());
             put("col", 0);
         }}, warning);
     }
 
-    public static void info(final String message){
-        System.out.println(message);
+    public static void error(final Throwable throwable){
+        issueCommand("error", new LinkedHashMap<String,Object>(){{
+            put("file", getFile(throwable.getStackTrace()[1]));
+            put("line", throwable.getStackTrace()[0].getLineNumber());
+            put("col", 0);
+        }}, throwable.getMessage());
+    }
+
+    public static void error(final String error){
+        final StackTraceElement trace = new Throwable().getStackTrace()[1];
+        issueCommand("error", new LinkedHashMap<String,Object>(){{
+            put("file", getFile(trace));
+            put("line", trace.getLineNumber());
+            put("col", 0);
+        }}, error);
     }
 
     public static void startGroup(final String name){
@@ -204,7 +202,17 @@ public abstract class Workflow {
         issueCommand(token);
     }
 
-    // ----- command ---------------
+    // ----- utility ---------------
+
+    @SuppressWarnings("ConstantConditions")
+    private static String getFile(final StackTraceElement traceElement){
+        return Workflow.class.getClassLoader().getResource(traceElement.getClassName().replace('.', '/') + ".class")
+            .getPath()
+            .replaceFirst(workspace != null ? workspace : "", "")
+            .replaceFirst("target/test-classes", "src/test/java")
+            .replaceFirst("target/classes", "src/main/java")
+            .replaceAll("class$", "java");
+    }
 
     private static void issueCommand(final String command){
         issueCommand(command, null, null);

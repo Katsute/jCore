@@ -14,27 +14,31 @@ jobs:
         jdk: [8, 9, 11, 16]
       fail-fast: false
     env:
-      INPUT_MY-INPUT: 'val'
-      INPUT_MY INPUT: 'val'
-      INPUT_SPECIAL CHARS_' \\": "'  \"\\ response "
-      INPUT_MULTIPLE SPACE VARIABLE: 'I have multiple spaces'
-      INPUT_BOOLEAN_INPUT: 'true'
+      INPUT_INPUT: 'val'
+      INPUT_SPECIAL_CHARS": "'  \"\\ response "
+      INPUT_MULTIPLE_SPACE_VARIABLE: 'I have multiple spaces'
+      INPUT_MULTIPLE_LINES: |
+        val1
+        val2
+        val3
+      INPUT_WHITESPACE: '  some val  '
+      INPUT_BOOLEAN: 'true'
       INPUT_TRUE1: 'true'
       INPUT_TRUE2: 'True'
       INPUT_TRUE3: 'TRUE'
       INPUT_FALSE1: 'false'
       INPUT_FALSE2: 'False'
       INPUT_FALSE3: 'FALSE'
-      INPUT_WRONG_BOOLEAN_INPUT: 'wrong'
-      INPUT_WITH_TRAILING_WHITESPACE: '  some val  '
-      INPUT_MY_INPUT_LIST: |
-        val1
-        val2
-        val3
+      INPUT_WRONG: 'wrong'
 
     steps:
       - name: 📦 Prepate Git Repo
         uses: actions/checkout@v2.3.4
+
+      - name: 📋 Preload Env
+        uses: actions/github-script@v4.0.2
+        with:
+          script: console.log("::save-state name=state_val::TEST_1");
 
       - name: ☕ Install OpenJDK
         uses: AdoptOpenJDK/install-jdk@v1.1.1
@@ -42,11 +46,18 @@ jobs:
           version: ${{ matrix.jdk }}
           architecture: x64
 
+      - name: ✔ Compile with Maven
+        run: mvn compile --no-transfer-progress
+
       - id: mvn
         name: ✔ Test with Maven
         run: mvn test -fae --no-transfer-progress
+        continue-on-error: true
 
-      - name: ✔ Test Workflow
-        if: steps.mvn.outputs != '1.01'
+      - name: ✔ Test Output
+        if: steps.mvn.outputs != '1.01' && steps.mvn.outputs != 'false' && steps.mvn.outputs != 'some value'
         run: |
-          echo "::set-failed::error"
+          echo "::error:: Output is missing"
+
+      - name: ✔ Test State
+        if: env.STATE_state_1

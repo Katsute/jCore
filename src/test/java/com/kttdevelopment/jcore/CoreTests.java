@@ -26,40 +26,44 @@ public final class CoreTests {
         System.setOut(SysOUT);
     }
 
+    // --------------- variables ---------------
+
     @Test
     public void testSecret(){
         Workflow.setSecret("secret val");
         Assertions.assertEquals("::add-mask::secret val", OUT.toString().trim());
     }
 
+    // ----- input ---------------
+
     @Test
     public void testInput(){
-        Assertions.assertEquals("val", Workflow.getInput("my-input"));
+        Assertions.assertEquals("val", Workflow.getInput("input"));
     }
 
     @Test
-    public void testRequiredInput(){
-        Assertions.assertEquals("val", Workflow.getInput("my-input", true));
+    public void testInputRequired(){
+        Assertions.assertEquals("val", Workflow.getInput("input", true));
     }
 
     @Test
-    public void testMissingInputRequired(){
+    public void testInputRequiredMissing(){
         Assertions.assertThrows(NullPointerException.class, () -> Workflow.getInput("missing", true));
     }
 
     @Test
-    public void testMissingInputNotRequired(){
+    public void testInputMissing(){
         Assertions.assertNull(Workflow.getInput("missing"));
     }
 
     @Test
     public void testInputCaseInsensitive(){
-        Assertions.assertEquals("val", Workflow.getInput("My InPuT"));
+        Assertions.assertEquals("val", Workflow.getInput("InPuT"));
     }
 
     @Test
     public void testInputSpecialCharacters(){
-        Assertions.assertEquals("'\t\"\\ response", Workflow.getInput("special chars_'\t\"\\"));
+        Assertions.assertEquals("'\t\"\\ response ", Workflow.getInput("special chars"));
     }
 
     @Test
@@ -68,32 +72,27 @@ public final class CoreTests {
     }
 
     @Test
-    public void testMultilineInput(){
-        Assertions.assertEquals(new String[]{"val1", "val2", "val3"}, Workflow.getMultilineInput("my input list"));
+    public void testInputMultipleLines(){
+        Assertions.assertEquals(new String[]{"val1", "val2", "val3"}, Workflow.getMultilineInput("multiple lines"));
     }
 
     @Test
-    public void testInputDefaultWhitespace(){
-        Assertions.assertEquals("some val", Workflow.getInput("with trailing whitespace"));
+    public void testInputWhitespaceDefault(){
+        Assertions.assertEquals("some val", Workflow.getInput("whitespace"));
     }
 
     @Test
-    public void testInputTrueWhitespace(){
-        Assertions.assertEquals("some val", Workflow.getInput("with trailing whitespace", true));
+    public void testInputWhitespaceTrue(){
+        Assertions.assertEquals("some val", Workflow.getInput("whitespace", true, true));
     }
 
     @Test
-    public void testInputFalseWhitespace(){
-        Assertions.assertEquals("  some val  ", Workflow.getInput("with trailing whitespace", false));
+    public void testInputWhitespaceFalse(){
+        Assertions.assertEquals("  some val  ", Workflow.getInput("whitespace", true, false));
     }
 
     @Test
-    public void testBooleanInputRequired(){
-        Assertions.assertTrue(Workflow.getBooleanInput("boolean input", true));
-    }
-
-    @Test
-    public void testBooleanInput(){
+    public void testInputBoolean(){
         Assertions.assertTrue(Workflow.getBooleanInput("true1"));
         Assertions.assertTrue(Workflow.getBooleanInput("true2"));
         Assertions.assertTrue(Workflow.getBooleanInput("true3"));
@@ -103,9 +102,11 @@ public final class CoreTests {
     }
 
     @Test
-    public void testWrongBooleanInput(){
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Workflow.getBooleanInput("wrong boolean input"));
+    public void testInputBooleanWrong(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> Workflow.getBooleanInput("wrong"));
     }
+
+    // ----- output ---------------
 
     @Test
     public void testSetOutput(){
@@ -125,32 +126,58 @@ public final class CoreTests {
         Assertions.assertEquals("::set-output name=some output::1.01", OUT.toString().trim());
     }
 
+    // ----- echo ---------------
+
     @Test
-    public void testError(){
-        Workflow.error("Error message");
-        Assertions.assertTrue(OUT.toString().trim().startsWith("::error file=CoreTests.java,line="));
-        Assertions.assertTrue(OUT.toString().trim().endsWith("::Error message"));
+    public void testEcho(){
+        Workflow.setCommandEcho(true);
+        Assertions.assertEquals("::echo::on", OUT.toString().trim());
     }
 
     @Test
-    public void testErrorEscapes(){
-        Workflow.error("Error message\r\n\n");
-        Assertions.assertTrue(OUT.toString().trim().startsWith("::error file=CoreTests.java,line="));
-        Assertions.assertTrue(OUT.toString().trim().endsWith("::Error message%0D%0A%0A"));
+    public void testEchoDisabled(){
+        Workflow.setCommandEcho(false);
+        Assertions.assertEquals("::echo::off", OUT.toString().trim());
+    }
+
+    // --------------- results ---------------
+
+    //              (skipped)
+
+    // --------------- logging ---------------
+
+    @Test
+    public void testInfo(){
+        Workflow.info("info");
+        Assertions.assertEquals("info", OUT.toString().trim());
+    }
+
+    // ----- debug ---------------
+
+    @Test
+    public void testDebug(){
+        Workflow.debug("Debug");
+        Assertions.assertEquals("::debug::Debug", OUT.toString().trim());
     }
 
     @Test
-    public void testErrorException(){
-        final NullPointerException exception = new NullPointerException("NPE");
-        Workflow.error(exception);
-        final String expected = "::error file=" + exception.getStackTrace()[0].getFileName() + ",line=" + exception.getStackTrace()[0].getLineNumber() + "::";
-        Assertions.assertTrue(OUT.toString().startsWith(expected), "Expected:" + expected);
+    public void testDebugBoolean(){
+        Assertions.assertTrue(Workflow.isDebug());
     }
+
+    @SuppressWarnings("SpellCheckingInspection")
+    @Test
+    public void testDebugEscapes(){
+        Workflow.debug("\r\ndebug\n");
+        Assertions.assertEquals("::debug::%0D%0Adebug%0A", OUT.toString().trim());
+    }
+
+    // ----- warning ---------------
 
     @Test
     public void testWarning(){
         Workflow.warning("Warning");
-        Assertions.assertTrue(OUT.toString().trim().startsWith("::warning file=CoreTests.java,line="));
+        Assertions.assertTrue(OUT.toString().trim().startsWith("::warning "));
         Assertions.assertTrue(OUT.toString().trim().endsWith("::Warning"));
     }
 
@@ -158,7 +185,7 @@ public final class CoreTests {
     @Test
     public void testWarningEscapes(){
         Workflow.warning("\r\nwarning\n");
-        Assertions.assertTrue(OUT.toString().trim().startsWith("::warning file=CoreTests.java,line="));
+        Assertions.assertTrue(OUT.toString().trim().startsWith("::warning "));
         Assertions.assertTrue(OUT.toString().trim().endsWith("::%0D%0Awarning%0A"));
     }
 
@@ -166,10 +193,37 @@ public final class CoreTests {
     public void testWarningException(){
         final NullPointerException exception = new NullPointerException("NPE");
         Workflow.warning(exception);
-        final String expected = "::warning file=" + exception.getStackTrace()[0].getFileName() + ",line=" + exception.getStackTrace()[0].getLineNumber() + "::";
-        Assertions.assertTrue(OUT.toString().startsWith(expected), "Expected:" + expected);
+        Assertions.assertTrue(OUT.toString().trim().startsWith("::warning "));
+        Assertions.assertTrue(OUT.toString().trim().endsWith("::NPE"));
     }
 
+    // ----- error ----------
+
+    @Test
+    public void testError(){
+        Workflow.error("Error message");
+        Assertions.assertTrue(OUT.toString().trim().startsWith("::error "));
+        Assertions.assertTrue(OUT.toString().trim().endsWith("::Error message"));
+    }
+
+    @Test
+    public void testErrorEscapes(){
+        Workflow.error("Error message\r\n\n");
+        Assertions.assertTrue(OUT.toString().trim().startsWith("::error "));
+        Assertions.assertTrue(OUT.toString().trim().endsWith("::Error message%0D%0A%0A"));
+    }
+
+    @Test
+    public void testErrorException(){
+        final NullPointerException exception = new NullPointerException("NPE");
+        Workflow.error(exception);
+        Assertions.assertTrue(OUT.toString().trim().startsWith("::error "));
+        Assertions.assertTrue(OUT.toString().trim().endsWith("::NPE"));
+    }
+
+    // ----- group ---------------
+
+    @SuppressWarnings("SpellCheckingInspection")
     @Test
     public void testGroup(){
         Workflow.startGroup("my-group");
@@ -183,26 +237,10 @@ public final class CoreTests {
     @Test
     public void testGroupWrap(){
         Workflow.startGroup("mygroup", () -> System.out.println("in my group"));
-        Assertions.assertEquals("::group::mygroup\r\nin my group\r\n::endgroup::", OUT.toString().trim());
+        Assertions.assertEquals("::group::mygroup\nin my group\n::endgroup::", OUT.toString().trim().replace("\r", ""));
     }
 
-    @Test
-    public void testDebug(){
-        Workflow.debug("Debug");
-        Assertions.assertEquals("::debug::Debug", OUT.toString().trim());
-    }
-
-    @Test
-    public void testDebugState(){
-        Assertions.assertTrue(Workflow.isDebug());
-    }
-
-    @SuppressWarnings("SpellCheckingInspection")
-    @Test
-    public void testDebugEscapes(){
-        Workflow.debug("\r\ndebug\n");
-        Assertions.assertEquals("::debug::%0D%0Adebug%0A", OUT.toString().trim());
-    }
+    // --------------- state ---------------
 
     @Test
     public void testSaveState(){
@@ -227,17 +265,7 @@ public final class CoreTests {
         Assertions.assertEquals("state_val", Workflow.getState("TEST_1"));
     }
 
-    @Test
-    public void testEcho(){
-        Workflow.setCommandEcho(true);
-        Assertions.assertEquals("::echo::on", OUT.toString().trim());
-    }
-
-    @Test
-    public void testEchoDisabled(){
-        Workflow.setCommandEcho(false);
-        Assertions.assertEquals("::echo::off", OUT.toString().trim());
-    }
+    // --------------- commands ---------------
 
     @Test
     public void testStopCommand(){
