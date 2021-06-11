@@ -47,16 +47,8 @@ jobs:
         run: mvn test -fae --no-transfer-progress
         continue-on-error: true
 
-      - run: echo "$env"
-
       - name: ✔ Test Output
         if: steps.mvn.outputs['some output'] != '1.01' && steps.mvn.outputs['some output'] != 'false' && steps.mvn.outputs['some output'] != 'some value'
         run: |
           echo "::set-failed::Output is missing"
-          exit 1
-
-      - name: ✔ Test State
-        if: env.STATE_state_1 != '1' && env.STATE_state_1 != 'true' && env.STATE_state_1 != 'some value'
-        run: |
-          echo "::set-failed::State is missing"
           exit 1
