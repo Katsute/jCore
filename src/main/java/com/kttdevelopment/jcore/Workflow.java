@@ -210,6 +210,7 @@ public abstract class Workflow {
         return Workflow.class.getClassLoader().getResource(traceElement.getClassName().replace('.', '/') + ".class")
             .getPath()
             .replaceFirst(workspace != null ? workspace : "", "")
+            .replaceFirst("^/", "")
             .replaceFirst("target/test-classes", "src/test/java")
             .replaceFirst("target/classes", "src/main/java")
             .replaceAll("class$", "java");

@@ -63,7 +63,7 @@ public final class CoreTests {
 
     @Test
     public void testInputSpecialCharacters(){
-        Assertions.assertEquals("'\t\"\\ response ", Workflow.getInput("special chars"));
+        Assertions.assertEquals("'\t\"\\ response", Workflow.getInput("special chars"));
     }
 
     @Test
