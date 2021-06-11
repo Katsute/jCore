@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
     env:
       INPUT_INPUT: 'val'
-      INPUT_SPECIAL_CHARS: "'  \"\\ response "
+      INPUT_SPECIAL_CHARS: "' \"\\ response "
       INPUT_MULTIPLE_SPACE_VARIABLE: 'I have multiple spaces'
       INPUT_MULTIPLE_LINES: |
         val1
@@ -40,6 +40,7 @@ jobs:
         with:
           script: |
             console.log("::save-state name=state_val::TEST_1");
+            console.log("::warning file=src/main/java/com/kttdevelopment/jcore/Workflow.java,line=10,col=1::warning");
 
       - name: ☕ Install OpenJDK
         uses: AdoptOpenJDK/install-jdk@v1.1.1
