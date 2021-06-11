@@ -129,7 +129,6 @@ public abstract class Workflow {
     }
 
     public static void warning(final Throwable throwable){
-        System.out.println(getFile(throwable.getStackTrace()[0]));
         issueCommand("warning", new LinkedHashMap<String,Object>(){{
             put("file", getFile(throwable.getStackTrace()[0]));
             put("line", throwable.getStackTrace()[0].getLineNumber());

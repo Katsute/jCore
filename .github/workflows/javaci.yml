@@ -38,7 +38,9 @@ jobs:
       - name: 📋 Preload Env
         uses: actions/github-script@v4.0.2
         with:
-          script: console.log("::save-state name=state_val::TEST_1");
+          script: |
+            console.log("::save-state name=state_val::TEST_1");
+            console.log("::warning file=src/main/java/com/kttdevelopment/jcore/Workflow.java,line=10,col=0::warning");
 
       - name: ☕ Install OpenJDK
         uses: AdoptOpenJDK/install-jdk@v1.1.1
@@ -53,9 +55,6 @@ jobs:
         name: ✔ Test with Maven
         run: mvn test -fae --no-transfer-progress
         continue-on-error: true
-
-      - run: |
-          echo "${{ toJSON(env) }}"
 
       - name: ✔ Test Output
         if: steps.mvn.outputs != '1.01' && steps.mvn.outputs != 'false' && steps.mvn.outputs != 'some value'
