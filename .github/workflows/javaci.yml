@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
     env:
       INPUT_INPUT: 'val'
-      INPUT_SPECIAL_CHARS": "'  \"\\ response "
+      INPUT_SPECIAL_CHARS: "'  \"\\ response "
       INPUT_MULTIPLE_SPACE_VARIABLE: 'I have multiple spaces'
       INPUT_MULTIPLE_LINES: |
         val1
@@ -54,12 +54,15 @@ jobs:
         run: mvn test -fae --no-transfer-progress
         continue-on-error: true
 
+      - run: |
+          echo "${{ env }}"
+
       - name: ✔ Test Output
         if: steps.mvn.outputs != '1.01' && steps.mvn.outputs != 'false' && steps.mvn.outputs != 'some value'
         run: |
-          echo "::error::Output is missing"
+          echo "::set-failed::Output is missing"
 
       - name: ✔ Test State
         if: env.STATE_state_1 != '1' && env.STATE_state_1 != 'true' && env.STATE_state_1 != 'some value'
         run: |
-          echo "::error::Output is missing"
+          echo "::set-failed::State is missing"

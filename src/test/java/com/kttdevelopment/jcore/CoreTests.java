@@ -73,7 +73,7 @@ public final class CoreTests {
 
     @Test
     public void testInputMultipleLines(){
-        Assertions.assertEquals(new String[]{"val1", "val2", "val3"}, Workflow.getMultilineInput("multiple lines"));
+        Assertions.assertArrayEquals(new String[]{"val1", "val2", "val3"}, Workflow.getMultilineInput("multiple lines"));
     }
 
     @Test
