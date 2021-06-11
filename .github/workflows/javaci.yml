@@ -50,7 +50,7 @@ jobs:
       - run: echo "$env"
 
       - name: ✔ Test Output
-        if: steps.mvn.outputs != '1.01' && steps.mvn.outputs != 'false' && steps.mvn.outputs != 'some value'
+        if: steps.mvn.outputs['some output'] != '1.01' && steps.mvn.outputs['some output'] != 'false' && steps.mvn.outputs['some output'] != 'some value'
         run: |
           echo "::set-failed::Output is missing"
           exit 1
