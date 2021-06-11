@@ -30,7 +30,7 @@ jobs:
       INPUT_FALSE2: 'False'
       INPUT_FALSE3: 'FALSE'
       INPUT_WRONG: 'wrong'
-      STATE_state_val: 'TEST_1'
+      STATE_TEST_1: 'state_val'
 
     steps:
       - name: 📦 Prepare Git Repo
