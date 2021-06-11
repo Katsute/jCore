@@ -45,6 +45,7 @@ jobs:
       - id: mvn
         name: ✔ Test with Maven
         run: mvn test -fae --no-transfer-progress
+        continue-on-error: true
 
       - run: echo "$env"
 
