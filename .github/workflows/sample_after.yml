@@ -10,7 +10,7 @@ jobs:
     name: java
     runs-on: ubuntu-latest
     env:
-      sample_only: false
+      sample_only: true
 
     steps:
       - name: 📦 Prepare Git Repo
