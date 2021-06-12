@@ -14,7 +14,14 @@ public final class CoreTests {
     @SuppressWarnings("SpellCheckingInspection")
     @BeforeAll
     public static void beforeAll(){
-        System.out.println("::start-group::ENV" + '\n' + System.getenv() + '\n' + "::endgroup::");
+        Assumptions.assumeTrue(System.getenv("sample-only") == null);
+        //System.out.println("::start-group::ENV" + '\n' + System.getenv() + '\n' + "::endgroup::");
+        System.out.println("::stop-commands::stop-key");
+    }
+
+    @AfterAll
+    public static void afterAll(){
+        System.out.println("::stop-key::");
     }
 
     @BeforeEach
@@ -25,7 +32,6 @@ public final class CoreTests {
     @AfterEach
     public void afterEach(){
         System.setOut(SysOUT);
-        System.out.println("----- END OF TEST ---------------");
     }
 
     // --------------- variables ---------------
@@ -34,14 +40,12 @@ public final class CoreTests {
     public void testSecret(){
         Workflow.setSecret("secret val");
         Assertions.assertEquals("::add-mask::secret val", OUT.toString().trim());
-        System.out.println("secret val");
     }
 
     @Test
     public void testSecretMask(){
         Workflow.addMask("secret val");
         Assertions.assertEquals("::add-mask::secret val", OUT.toString().trim());
-        System.out.println("secret val");
     }
 
     // ----- input ---------------
@@ -120,20 +124,32 @@ public final class CoreTests {
 
     @Test
     public void testSetOutput(){
+        System.out.println("::stop-key::");
+
         Workflow.setOutput("some output", "some value");
-        Assertions.assertEquals("::set-output name=some output::some value", OUT.toString().trim());
+        Assertions.assertEquals("::set-output name=some output::some value", OUT.toString().trim().split("\n")[1]);
+
+        System.out.println("::stop-commands::stop-key");
     }
 
     @Test
     public void testSetOutputBooleans(){
+        System.out.println("::stop-key::");
+
         Workflow.setOutput("some output", false);
-        Assertions.assertEquals("::set-output name=some output::false", OUT.toString().trim());
+        Assertions.assertEquals("::set-output name=some output::false", OUT.toString().trim().split("\n")[1]);
+
+        System.out.println("::stop-commands::stop-key");
     }
 
     @Test
     public void testSetOutputNumbers(){
+        System.out.println("::stop-key::");
+
         Workflow.setOutput("some output", 1.01);
-        Assertions.assertEquals("::set-output name=some output::1.01", OUT.toString().trim());
+        Assertions.assertEquals("::set-output name=some output::1.01", OUT.toString().trim().split("\n")[1]);
+
+        System.out.println("::stop-commands::stop-key");
     }
 
     // ----- echo ---------------

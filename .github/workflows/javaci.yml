@@ -45,7 +45,6 @@ jobs:
       - id: mvn
         name: ✔ Test with Maven
         run: mvn test -fae --no-transfer-progress
-        continue-on-error: true
 
       - name: ✔ Test Output
         if: steps.mvn.outputs['some output'] != '1.01' && steps.mvn.outputs['some output'] != 'false' && steps.mvn.outputs['some output'] != 'some value'

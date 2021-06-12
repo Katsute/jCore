@@ -1,0 +1,27 @@
+name: Sample [Before]
+on:
+  push: {}
+  pull_request:
+    branches: [main]
+permissions: read-all
+
+jobs:
+  java:
+    name: java
+    runs-on: ubuntu-latest
+    env:
+      sample-only: true
+
+    steps:
+      - name: 📦 Prepare Git Repo
+        uses: actions/checkout@v2.3.4
+
+      - name: ☕ Install OpenJDK
+        uses: AdoptOpenJDK/install-jdk@v1.1.1
+        with:
+          version: 11
+          architecture: x64
+
+      - id: mvn
+        name: ✔ Test with Maven
+        run: mvn test -fae --no-transfer-progress

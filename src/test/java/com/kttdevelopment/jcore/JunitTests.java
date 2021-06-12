@@ -7,7 +7,7 @@ import org.opentest4j.TestAbortedException;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class JunitTests {
+public final class JunitTests {
 
     private static final PrintStream SysOUT = System.out;
     private final ByteArrayOutputStream OUT = new ByteArrayOutputStream();
@@ -15,7 +15,8 @@ public class JunitTests {
     @SuppressWarnings("SpellCheckingInspection")
     @BeforeAll
     public static void beforeAll(){
-        System.out.println("::start-group::ENV" + '\n' + System.getenv() + '\n' + "::endgroup::");
+        Assumptions.assumeTrue(System.getenv("sample-only") == null);
+        //System.out.println("::start-group::ENV" + '\n' + System.getenv() + '\n' + "::endgroup::");
     }
 
     @BeforeEach
@@ -32,7 +33,7 @@ public class JunitTests {
     @Test
     public void testAssertion(){
         try{
-            Assertions.assertEquals("true", "false", Workflow.junitError("true is not equal to false"));
+            Assertions.assertEquals("true", "false", Workflow.errorSupplier("true is not equal to false"));
         }catch(final AssertionFailedError ignored){ }
 
         final String first = OUT.toString().trim().split("%0A")[0];
@@ -43,7 +44,7 @@ public class JunitTests {
     @Test
     public void testAssumption(){
         try{
-            Assumptions.assumeTrue(false, Workflow.junitWarning("expected false to be true"));
+            Assumptions.assumeTrue(false, Workflow.warningSupplier("expected false to be true"));
         }catch(final TestAbortedException ignored){ }
 
         final String first = OUT.toString().trim().split("%0A")[0];

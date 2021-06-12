@@ -1,5 +1,5 @@
 <div align="center">
-    <h3 align="center">jCore - Java library for GitHub Workflow commands</h3>
+    <h3 align="center">jCore - Java library for GitHub workflow commands</h3>
     <p align="center">
         <a href="https://jCore.katsute.dev/">Docs</a>
         •

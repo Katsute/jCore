@@ -21,28 +21,83 @@ package com.kttdevelopment.jcore;
 import java.util.*;
 import java.util.function.Supplier;
 
+/**
+ * The workflow class replicates the functionality of GitHub workflow commands.
+ *
+ * @author Katsute
+ * @since 1.0.0
+ * @version 1.0.0
+ */
 public abstract class Workflow {
-
-    private static final String workspace = System.getenv("GITHUB_WORKSPACE");
 
     // ----- variables ---------------
 
+    /**
+     * Hides a certain phrase from the logs. Alias for {@link #setSecret(String)}.
+     *
+     * @param mask the phrase to hide
+     *
+     * @see #setSecret(String)
+     * @since 1.0.0
+     */
     public static void addMask(final String mask){
         setSecret(mask);
     }
 
+    /**
+     * Hides a certain phrase from the logs.
+     *
+     * @param secret the phrase to hide
+     *
+     * @see #addMask(String)
+     * @since 1.0.0
+     */
     public static void setSecret(final String secret){
         issueCommand("add-mask", secret);
     }
 
+    /**
+     * Returns a specified workflow input.
+     *
+     * @param name name of input
+     *
+     * @return value of input or null
+     *
+     * @see #getInput(String, boolean)
+     * @see #getInput(String, boolean, boolean) 
+     * @since 1.0.0
+     */
     public static String getInput(final String name){
         return getInput(name, false, true);
     }
 
+    /**
+     * Returns a specified workflow input or null.
+     *
+     * @param name name of input
+     * @param required if true, a {@link NullPointerException} will be thrown if the value is null
+     * @return value of input
+     *
+     * @see #getInput(String)
+     * @see #getInput(String, boolean, boolean)
+     * @since 1.0.0
+     */
     public static String getInput(final String name, final boolean required){
         return getInput(name, required, true);
     }
 
+    /**
+     * Returns a specified workflow input or null.
+     *
+     * @param name name of input
+     * @param required if true, a {@link NullPointerException} will be thrown if the value is null
+     * @param trimWhitespace whether to trim the value or not, true by default
+     * @return value of input
+     *
+     * @see #getInput(String)
+     * @see #getInput(String, boolean)
+     * @since 1.0.0
+     */
     public static String getInput(final String name, final boolean required, final boolean trimWhitespace){
         final String input = name != null ? "INPUT_" + name.replace(' ', '_').toUpperCase() : "";
         final String value = System.getenv(input);
@@ -56,14 +111,47 @@ public abstract class Workflow {
                 : null;
     }
 
+    /**
+     * Returns a specified workflow input split into lines.
+     *
+     * @param name name of input
+     * @return value of input in lines
+     *
+     * @see #getMultilineInput(String, boolean)
+     * @see #getMultilineInput(String, boolean, boolean)
+     * @since 1.0.0
+     */
     public static String[] getMultilineInput(final String name){
         return getMultilineInput(name, false, true);
     }
 
+    /**
+     * Returns a specified workflow input split into lines.
+     *
+     * @param name name of input
+     * @param required if true, a {@link NullPointerException} will be thrown if the value is null
+     * @return value of input in lines
+     *
+     * @see #getMultilineInput(String)
+     * @see #getMultilineInput(String, boolean, boolean)
+     * @since 1.0.0
+     */
     public static String[] getMultilineInput(final String name, final boolean required){
         return getMultilineInput(name, required, true);
     }
 
+    /**
+     * Returns a specified workflow input split into lines.
+     *
+     * @param name name of input
+     * @param required if true, a {@link NullPointerException} will be thrown if the value is null
+     * @param trimWhitespace whether to trim the whole value or not, true by default
+     * @return value of input in lines
+     *
+     * @see #getMultilineInput(String)
+     * @see #getMultilineInput(String, boolean)
+     * @since 1.0.0
+     */
     public static String[] getMultilineInput(final String name, final boolean required, final boolean trimWhitespace){
         final String input = getInput(name, required, trimWhitespace);
         return input == null
@@ -74,14 +162,47 @@ public abstract class Workflow {
                 .toArray(String[]::new);
     }
 
+    /**
+     * Returns the value of a workflow input as a boolean.
+     *
+     * @param name name of input
+     * @return value of input
+     *
+     * @see #getBooleanInput(String, boolean)
+     * @see #getBooleanInput(String, boolean, boolean)
+     * @since 1.0.0
+     */
     public static boolean getBooleanInput(final String name){
         return getBooleanInput(name, true, true);
     }
 
+    /**
+     * Returns the value of a workflow input as a boolean.
+     *
+     * @param name name of input
+     * @param required if true, a {@link NullPointerException} will be thrown if the value is null
+     * @return value of input
+     *
+     * @see #getBooleanInput(String)
+     * @see #getBooleanInput(String, boolean, boolean)
+     * @since 1.0.0
+     */
     public static boolean getBooleanInput(final String name, final boolean required){
         return getBooleanInput(name, required, true);
     }
 
+    /**
+     * Returns the value of a workflow input as a boolean.
+     *
+     * @param name name of input
+     * @param required if true, a {@link NullPointerException} will be thrown if the value is null
+     * @param trimWhitespace whether to trim the value or not, true by default
+     * @return value of input
+     *
+     * @see #getBooleanInput(String)
+     * @see #getBooleanInput(String, boolean)
+     * @since 1.0.0
+     */
     public static boolean getBooleanInput(final String name, final boolean required, final boolean trimWhitespace){
         final String input = getInput(name, required, trimWhitespace);
 
@@ -93,49 +214,109 @@ public abstract class Workflow {
         throw new IllegalArgumentException("Input '" + name + "' is not a boolean type");
     }
 
+    /**
+     * Sets the workflow step output.
+     *
+     * @param name output key name
+     * @param value output value
+     *
+     * @since 1.0.0
+     */
     public static void setOutput(final String name, final Object value){
         issueCommand("set-output", new LinkedHashMap<String,Object>(){{
             put("name", name);
         }}, value);
     }
 
+    /**
+     * Toggles command echo. This does not disable commands.
+     *
+     * @param enabled whether commands are echoed or not
+     *
+     * @since 1.0.0
+     */
     public static void setCommandEcho(final boolean enabled){
         issueCommand("echo", enabled ? "on" : "off");
     }
 
     // ----- results ---------------
 
+    /**
+     * Prints an error message and sets the error code to 1.
+     *
+     * @param error error message
+     *
+     * @see #error(String)
+     * @since 1.0.0
+     */
     public static void setFailed(final String error){
-        error(error);
-
+        final Throwable throwable = new Throwable();
+        error(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> System.exit(1)));
     }
 
     // ----- logging commands ---------------
 
+    /**
+     * Prints a message.
+     *
+     * @param message message to print
+     *
+     * @since 1.0.0
+     */
     public static void info(final String message){
         System.out.println(message);
     }
 
+    /**
+     * Returns if the runner is in debug mode.
+     *
+     * @return debug status
+     *
+     * @since 1.0.0
+     */
     public static boolean isDebug(){
         try{
             return System.getenv("RUNNER_DEBUG").equals("1");
-        }catch(final Throwable e){
+        }catch(final Throwable ignored){
             return false;
         }
     }
 
+    /**
+     * Prints a debug message.
+     *
+     * @param debug message to print
+     *
+     * @since 1.0.0
+     */
     public static void debug(final String debug){
         issueCommand("debug", debug);
     }
 
-    public static void warning(final Throwable throwable){
-        warning(throwable.getStackTrace(), throwable.getMessage());
-    }
-
+    /**
+     * Prints a warning message.
+     *
+     * @param warning message to print
+     *
+     * @see #warning(Throwable)
+     * @since 1.0.0
+     */
     public static void warning(final String warning){
         final Throwable throwable = new Throwable();
         warning(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), warning);
+    }
+
+    /**
+     * Prints a warning message.
+     *
+     * @param throwable throwable
+     *
+     * @see #warning(String)
+     * @since 1.0.0
+     */
+    public static void warning(final Throwable throwable){
+        warning(throwable.getStackTrace(), throwable.getMessage());
     }
 
     private static void warning(final StackTraceElement[] trace, final String message){
@@ -146,21 +327,45 @@ public abstract class Workflow {
         }}, getTraceMessage(trace, message));
     }
 
-    public static Supplier<String> junitWarning(final String error){
+    /**
+     * Prints a warning message from a supplier.
+     *
+     * @param warning message to print
+     * @return warning message
+     *
+     * @since 1.0.0
+     */
+    public static Supplier<String> warningSupplier(final String warning){
         final Throwable throwable = new Throwable();
         return () -> {
-            warning(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error);
-            return error;
+            warning(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), warning);
+            return warning;
         };
     }
 
-    public static void error(final Throwable throwable){
-        error(throwable.getStackTrace(), throwable.getMessage());
-    }
-
+    /**
+     * Prints an error message.
+     *
+     * @param error message to print
+     *
+     * @see #error(Throwable)
+     * @see #setFailed(String)
+     */
     public static void error(final String error){
         final Throwable throwable = new Throwable();
         error(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error);
+    }
+
+    /**
+     * Prints an error message.
+     *
+     * @param throwable throwable
+     *
+     * @see #error(String)
+     * @since 1.0.0
+     */
+    public static void error(final Throwable throwable){
+        error(throwable.getStackTrace(), throwable.getMessage());
     }
 
     private static void error(final StackTraceElement[] trace, final String message){
@@ -171,7 +376,15 @@ public abstract class Workflow {
         }}, getTraceMessage(trace, message));
     }
 
-    public static Supplier<String> junitError(final String error){
+    /**
+     * Prints an error message from a supplier.
+     *
+     * @param error message to print
+     * @return error message
+     *
+     * @since 1.0.0
+     */
+    public static Supplier<String> errorSupplier(final String error){
         final Throwable throwable = new Throwable();
         return () -> {
             error(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error);
@@ -179,10 +392,28 @@ public abstract class Workflow {
         };
     }
 
+    /**
+     * Starts a group.
+     *
+     * @param name name of group
+     *
+     * @see #startGroup(String, Runnable)
+     * @see #endGroup()
+     * @since 1.0.0
+     */
     public static void startGroup(final String name){
         issueCommand("group", name);
     }
 
+    /**
+     * Starts a group in a {@link Runnable} and ends it after it finishes.
+     *
+     * @param name name of group
+     * @param runnable runnable
+     *
+     * @see #startGroup(String)
+     * @since 1.0.0
+     */
     public static void startGroup(final String name, final Runnable runnable){
         startGroup(name);
         try{
@@ -192,6 +423,12 @@ public abstract class Workflow {
         }
     }
 
+    /**
+     * Ends the currently opened group.
+     *
+     * @see #startGroup(String)
+     * @since 1.0.0
+     */
     @SuppressWarnings("SpellCheckingInspection")
     public static void endGroup(){
         issueCommand("endgroup");
@@ -199,30 +436,80 @@ public abstract class Workflow {
 
     // ----- state ---------------
 
+    /**
+     * Saves a state.
+     *
+     * @param name name of state
+     * @param value state value
+     *
+     * @see #getState(String)
+     * @since 1.0.0
+     */
     public static void saveState(final String name, final Object value){
         issueCommand("save-state", new LinkedHashMap<String,Object>(){{
             put("name", name);
         }}, value);
     }
 
+    /**
+     * Retrieves a state.
+     *
+     * @param state name of state
+     * @return state value
+     *
+     * @see #saveState(String, Object)
+     * @since 1.0.0
+     */
     public static String getState(final String state){
         return System.getenv("STATE_" + state);
     }
 
     // ----- commands ---------------
 
+    /**
+     * Stops workflow commands until a token is passed.
+     *
+     * @param token token to restart commands
+     *
+     * @see #startCommand(String)
+     * @since 1.0.0
+     */
     public static void stopCommand(final String token){
         issueCommand("stop-commands", token);
     }
 
+    /**
+     * Starts workflow commands.
+     *
+     * @param token token used to stop commands
+     *
+     * @see #stopCommand(String)
+     * @since 1.0.0
+     */
     public static void startCommand(final String token){
         issueCommand(token);
     }
 
+    /**
+     * Adds a matcher.
+     *
+     * @param matcher path to matcher json
+     *
+     * @see #removeMatcher(String)
+     * @since 1.0.0
+     */
     public static void addMatcher(final String matcher){
         issueCommand("add-matcher", null, matcher);
     }
 
+    /**
+     * Removes a matcher.
+     *
+     * @param owner the owner of the matcher as specified in the json
+     *
+     * @see #addMatcher(String)
+     * @since 1.0.0
+     */
     public static void removeMatcher(final String owner){
         issueCommand("remove-matcher", new LinkedHashMap<String,Object>(){{
             put("owner", owner);
@@ -230,6 +517,8 @@ public abstract class Workflow {
     }
 
     // ----- utility ---------------
+
+    private static final String workspace = System.getenv("GITHUB_WORKSPACE");
 
     @SuppressWarnings("ConstantConditions")
     private static String getFile(final StackTraceElement traceElement){
