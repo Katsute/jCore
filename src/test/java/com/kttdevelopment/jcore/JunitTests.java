@@ -15,8 +15,14 @@ public final class JunitTests {
     @SuppressWarnings("SpellCheckingInspection")
     @BeforeAll
     public static void beforeAll(){
-        Assumptions.assumeTrue(System.getenv("sample-only") == null);
+        Assumptions.assumeTrue(System.getenv("sample_only") == null);
         //System.out.println("::start-group::ENV" + '\n' + System.getenv() + '\n' + "::endgroup::");
+        System.out.println("::stop-commands::stop-key");
+    }
+
+    @AfterAll
+    public static void afterAll(){
+        System.out.println("::stop-key::");
     }
 
     @BeforeEach
@@ -27,7 +33,6 @@ public final class JunitTests {
     @AfterEach
     public void afterEach(){
         System.setOut(SysOUT);
-        System.out.println("----- END OF TEST ---------------");
     }
 
     @Test

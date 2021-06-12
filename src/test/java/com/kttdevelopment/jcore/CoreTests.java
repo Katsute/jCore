@@ -14,7 +14,7 @@ public final class CoreTests {
     @SuppressWarnings("SpellCheckingInspection")
     @BeforeAll
     public static void beforeAll(){
-        Assumptions.assumeTrue(System.getenv("sample-only") == null);
+        Assumptions.assumeTrue(System.getenv("sample_only") == null);
         //System.out.println("::start-group::ENV" + '\n' + System.getenv() + '\n' + "::endgroup::");
         System.out.println("::stop-commands::stop-key");
     }
