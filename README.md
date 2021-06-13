@@ -16,6 +16,22 @@
     <a href="https://github.com/Katsute/jCore/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/github/license/Katsute/jCore"></a>
 </div>
 
+## Overview
+
+## JUnit Integration
+
+Add jCore to your JUnit test cases in order to see failures as annotations.
+
+```java
+Assertions.assertTrue(false, Workflow.errorSupplier("expected expression to be true"));
+
+Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to be true"));
+```
+
+|Before|After|
+|---|---|
+|![before](https://raw.githubusercontent.com/Katsute/jCore/main/before.png)|![after](https://raw.githubusercontent.com/Katsute/jCore/main/before.png)|
+
 <hr>
 
 - Found a bug? Post it in [issues](https://github.com/Katsute/jCore/issues).
