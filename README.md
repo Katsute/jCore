@@ -18,6 +18,13 @@
 
 ## Overview
 
+jCore supports most GitHub workflow commands.
+ - inputs
+ - logging
+ - groups
+ - secret masking
+ - matcher
+
 ## JUnit Integration
 
 Add jCore to your JUnit test cases in order to see failures as annotations.
@@ -29,7 +36,7 @@ Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to b
 ```
 
 |Before|After|
-|---|---|
+|:-:|:-:|
 |![before](https://raw.githubusercontent.com/Katsute/jCore/main/before.png)|![after](https://raw.githubusercontent.com/Katsute/jCore/main/before.png)|
 
 <hr>

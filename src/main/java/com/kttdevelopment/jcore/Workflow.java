@@ -531,10 +531,6 @@ public abstract class Workflow {
             .replaceAll("class$", "java");
     }
 
-    private static String getTraceMessage(final StackTraceElement[] stacktrace){
-        return getTraceMessage(stacktrace, null);
-    }
-
     private static String getTraceMessage(final StackTraceElement[] stacktrace, final String message){
         final StackTraceElement cause = stacktrace[0];
         final StringBuilder output = new StringBuilder();
