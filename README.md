@@ -37,7 +37,7 @@ Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to b
 
 |Before|After|
 |:-:|:-:|
-|![before](https://raw.githubusercontent.com/Katsute/jCore/main/before.png)|![after](https://raw.githubusercontent.com/Katsute/jCore/main/before.png)|
+|![before](https://raw.githubusercontent.com/Katsute/jCore/main/before.png)|![after](https://raw.githubusercontent.com/Katsute/jCore/main/after.png)|
 
 <hr>
 
