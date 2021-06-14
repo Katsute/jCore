@@ -57,7 +57,7 @@ public abstract class Workflow {
     }
 
     /**
-     * Returns a specified workflow input.
+     * Returns a specified workflow input or null.
      *
      * @param name name of input
      *
@@ -173,7 +173,7 @@ public abstract class Workflow {
      * @since 1.0.0
      */
     public static boolean getBooleanInput(final String name){
-        return getBooleanInput(name, true, true);
+        return getBooleanInput(name, false, true);
     }
 
     /**
@@ -211,7 +211,10 @@ public abstract class Workflow {
                 return true;
             else if(input.equalsIgnoreCase("false"))
                 return false;
-        throw new IllegalArgumentException("Input '" + name + "' is not a boolean type");
+            else
+                throw new IllegalArgumentException("Input '" + name + "' is not a boolean type");
+        else
+            return false;
     }
 
     /**
@@ -328,7 +331,7 @@ public abstract class Workflow {
     }
 
     /**
-     * Prints a warning message from a supplier if running on CI.
+     * Creates a supplier that returns a warning message. Prints warning if running on CI.
      *
      * @param warning message to print
      * @return warning message
@@ -378,7 +381,7 @@ public abstract class Workflow {
     }
 
     /**
-     * Prints an error message from a supplier if running on CI.
+     * Creates a supplier that returns an error message. Prints error if running on CI.
      *
      * @param error message to print
      * @return error message
