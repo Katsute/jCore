@@ -29,12 +29,6 @@ jCore supports most GitHub workflow commands.
 
 Add jCore to your JUnit test cases in order to see failures as annotations.
 
-```java
-Assertions.assertTrue(false, Workflow.errorSupplier("expected expression to be true"));
-
-Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to be true"));
-```
-
 ### without jCore
 
 ```java
@@ -61,6 +55,7 @@ Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to b
 ```
 
  - annotations show warnings and errors
+ - full stack traces in annotations
  - direct links to line error
 
 <div align="center">
@@ -71,8 +66,6 @@ Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to b
         <img src="https://raw.githubusercontent.com/Katsute/jCore/main/after.link.png">
     </a>
 </div>
-
-<hr>
 
 ## Contributing
 
