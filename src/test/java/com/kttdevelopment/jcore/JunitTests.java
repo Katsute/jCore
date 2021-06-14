@@ -42,6 +42,8 @@ public final class JunitTests {
             Assertions.assertTrue(false, Workflow.errorSupplier("expected expression to be true"));
         }catch(final AssertionFailedError ignored){ }
 
+        if(!"true".equals(System.getenv("CI"))) return;
+
         final String first = OUT.toString().trim().split("%0A")[0];
         Assertions.assertTrue(first.startsWith("::error "));
         Assertions.assertTrue(first.endsWith(": expected expression to be true"));
@@ -52,6 +54,8 @@ public final class JunitTests {
         try{
             Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to be true"));
         }catch(final TestAbortedException ignored){ }
+
+        if(!"true".equals(System.getenv("CI"))) return;
 
         final String first = OUT.toString().trim().split("%0A")[0];
         Assertions.assertTrue(first.startsWith("::warning "));

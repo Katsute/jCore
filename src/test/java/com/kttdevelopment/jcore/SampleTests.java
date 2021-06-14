@@ -6,15 +6,29 @@ import org.junit.jupiter.api.*;
 public final class SampleTests {
 
     @Test
-    public void testJUnit(){
-        Assumptions.assumeTrue(System.getenv("sample_only") != null && System.getenv("sample_only").equals("false"));
+    public void testJUnitWarning(){
+        Assumptions.assumeTrue("false".equals(System.getenv("sample_only")));
+
+        Assumptions.assumeTrue(false, "expected expression to be true");
+    }
+
+    @Test
+    public void testJUnitError(){
+        Assumptions.assumeTrue("false".equals(System.getenv("sample_only")));
 
         Assertions.assertTrue(false, "expected expression to be true");
     }
 
     @Test
-    public void testJCore(){
-        Assumptions.assumeTrue(System.getenv("sample_only") != null && System.getenv("sample_only").equals("true"));
+    public void testJCoreWarning(){
+        Assumptions.assumeTrue("true".equals(System.getenv("sample_only")));
+
+        Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to be true"));
+    }
+
+        @Test
+    public void testJCoreError(){
+        Assumptions.assumeTrue("true".equals(System.getenv("sample_only")));
 
         Assertions.assertTrue(false, Workflow.errorSupplier("expected expression to be true"));
     }

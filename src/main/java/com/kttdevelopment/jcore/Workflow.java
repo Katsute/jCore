@@ -338,7 +338,8 @@ public abstract class Workflow {
     public static Supplier<String> warningSupplier(final String warning){
         final Throwable throwable = new Throwable();
         return () -> {
-            warning(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), warning);
+            if(CI)
+                warning(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), warning);
             return warning;
         };
     }
@@ -387,7 +388,8 @@ public abstract class Workflow {
     public static Supplier<String> errorSupplier(final String error){
         final Throwable throwable = new Throwable();
         return () -> {
-            error(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error);
+            if(CI)
+                error(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error);
             return error;
         };
     }
@@ -518,7 +520,12 @@ public abstract class Workflow {
 
     // ----- utility ---------------
 
-    private static final String workspace = System.getenv("GITHUB_WORKSPACE");
+    private static final String workspace   = System.getenv("GITHUB_WORKSPACE");
+    private static final String repository  = System.getenv("GITHUB_REPOSITORY");
+    private static final String SHA         = System.getenv("GITHUB_SHA");
+
+    //private static final boolean CI = "true".equals(System.getenv("CI"));
+    private static final boolean CI = true;
 
     @SuppressWarnings("ConstantConditions")
     private static String getFile(final StackTraceElement traceElement){
@@ -534,11 +541,13 @@ public abstract class Workflow {
     private static String getTraceMessage(final StackTraceElement[] stacktrace, final String message){
         final StackTraceElement cause = stacktrace[0];
         final StringBuilder output = new StringBuilder();
-
-        output.append(getFile(cause))
+        output.append("https://github.com/")
+              .append(repository).append('/').append("blob").append('/')
+              .append(SHA).append('/')
+              .append(getFile(cause))
               .append("#L").append(cause.getLineNumber());
         if(message != null)
-            output.append(": ").append(message);
+            output.append(" : ").append(message);
         output.append('\n');
 
         boolean first = true;
