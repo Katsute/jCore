@@ -35,11 +35,46 @@ Assertions.assertTrue(false, Workflow.errorSupplier("expected expression to be t
 Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to be true"));
 ```
 
-|Before|After|
-|:-:|:-:|
-|![before](https://raw.githubusercontent.com/Katsute/jCore/main/before.png)|![after](https://raw.githubusercontent.com/Katsute/jCore/main/after.png)|
+### without jCore
+
+```java
+Assertions.assertTrue(false, "expected expression to be true");
+
+Assumptions.assumeTrue(false, "expected expression to be true");
+```
+
+ - no warning messages
+ - requires reading maven log to find warnings and errors
+
+<div align="center">
+    <a href="https://github.com/Katsute/jCore/blob/main/before.png">
+        <img src="https://raw.githubusercontent.com/Katsute/jCore/main/before.png">
+    </a>
+</div>
+
+### with jCore
+
+```java
+Assertions.assertTrue(false, Workflow.errorSupplier("expected expression to be true"));
+
+Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to be true"));
+```
+
+ - annotations show warnings and errors
+ - direct links to line error
+
+<div align="center">
+    <a href="https://github.com/Katsute/jCore/blob/main/after.png">
+        <img src="https://raw.githubusercontent.com/Katsute/jCore/main/after.png">
+    </a>
+    <a href="https://github.com/Katsute/jCore/blob/main/after.link.png">
+        <img src="https://raw.githubusercontent.com/Katsute/jCore/main/after.link.png">
+    </a>
+</div>
 
 <hr>
+
+## Contributing
 
 - Found a bug? Post it in [issues](https://github.com/Katsute/jCore/issues).
 - Want to further expand our project? [Fork](https://github.com/Katsute/jCore/fork) this repository and submit a [pull request](https://github.com/Katsute/jCore/pulls).

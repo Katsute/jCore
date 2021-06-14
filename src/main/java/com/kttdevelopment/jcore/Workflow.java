@@ -328,7 +328,7 @@ public abstract class Workflow {
     }
 
     /**
-     * Prints a warning message from a supplier.
+     * Prints a warning message from a supplier if running on CI.
      *
      * @param warning message to print
      * @return warning message
@@ -378,7 +378,7 @@ public abstract class Workflow {
     }
 
     /**
-     * Prints an error message from a supplier.
+     * Prints an error message from a supplier if running on CI.
      *
      * @param error message to print
      * @return error message
