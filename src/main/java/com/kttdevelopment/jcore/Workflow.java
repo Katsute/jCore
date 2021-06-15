@@ -30,6 +30,8 @@ import java.util.function.Supplier;
  */
 public abstract class Workflow {
 
+    private Workflow(){ }
+
     // ----- variables ---------------
 
     /**
