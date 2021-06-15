@@ -1,7 +1,7 @@
 <div align="center">
-    <h3 align="center">jCore - Java library for GitHub workflow commands</h3>
+    <h1 align="center">jCore - Java library for GitHub workflow commands</h3>
     <p align="center">
-        <a href="https://jCore.katsute.dev/">Docs</a>
+        <a href="https://jCore.katsute.dev/">Documentation</a>
         •
         <a href="https://github.com/Katsute/jCore/issues">Issues</a>
     </p>
@@ -19,17 +19,32 @@
 ## Overview
 
 jCore supports most GitHub workflow commands.
- - inputs
- - logging
- - groups
- - secret masking
- - matcher
+ - Inputs
+   ```java
+   Workflow.getInput("input")
+   ```
+ - Logging
+   ```java
+   Workflow.info("info");
+   Workflow.debug("debug");
+   Workflow.warning("warning");
+   Workflow.error("error");
+   ```
+ - Grouos
+   ```java
+   Workflow.startGroup("my-group");
+   ```
+ - Secret masking
+   ```java
+   Workflow.addMask("secret value");
+   ```
+View all features in the [documentation](https://jCore.katsute.dev/)
 
 ## JUnit Integration
 
 Add jCore to your JUnit test cases in order to see failures as annotations.
 
-### without jCore
+### ❌ without jCore
 
 ```java
 Assertions.assertTrue(false, "expected expression to be true");
@@ -46,7 +61,7 @@ Assumptions.assumeTrue(false, "expected expression to be true");
     </a>
 </div>
 
-### with jCore
+### ✔ with jCore
 
 ```java
 Assertions.assertTrue(false, Workflow.errorSupplier("expected expression to be true"));
@@ -69,5 +84,5 @@ Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to b
 
 ## Contributing
 
-- Found a bug? Post it in [issues](https://github.com/Katsute/jCore/issues).
-- Want to further expand our project? [Fork](https://github.com/Katsute/jCore/fork) this repository and submit a [pull request](https://github.com/Katsute/jCore/pulls).
+ - Found a bug? Post it in [issues](https://github.com/Katsute/jCore/issues).
+ - Want to further expand our project? [Fork](https://github.com/Katsute/jCore/fork) this repository and submit a [pull request](https://github.com/Katsute/jCore/pulls).
