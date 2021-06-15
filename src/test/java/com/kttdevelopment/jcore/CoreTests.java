@@ -34,6 +34,10 @@ public final class CoreTests {
         System.setOut(SysOUT);
     }
 
+    private String firstLine(){
+        return OUT.toString().trim().split("%0A")[0];
+    }
+
     // --------------- variables ---------------
 
     @Test
@@ -203,7 +207,7 @@ public final class CoreTests {
     @Test
     public void testWarning(){
         Workflow.warning("Warning");
-        final String first = OUT.toString().trim().split("%0A")[0];
+        final String first = firstLine();
         Assertions.assertTrue(first.startsWith("::warning "));
         Assertions.assertTrue(first.endsWith(": Warning"));
     }
@@ -211,7 +215,7 @@ public final class CoreTests {
     @Test
     public void testWarningEscapes(){
         Workflow.warning("warning\r");
-        final String first = OUT.toString().trim().split("%0A")[0];
+        final String first = firstLine();
         Assertions.assertTrue(first.startsWith("::warning "));
         Assertions.assertTrue(first.endsWith(": warning%0D"));
     }
@@ -220,7 +224,16 @@ public final class CoreTests {
     public void testWarningException(){
         final NullPointerException exception = new NullPointerException("NPE");
         Workflow.warning(exception);
-        final String first = OUT.toString().trim().split("%0A")[0];
+        final String first = firstLine();
+        Assertions.assertTrue(first.startsWith("::warning "));
+        Assertions.assertTrue(first.endsWith(": NPE"));
+    }
+
+    @Test
+    public void testWarningThrowable(){
+        final NullPointerException exception = new NullPointerException("NPE");
+        Assertions.assertThrows(NullPointerException.class, () -> Workflow.throwWarning(exception));
+        final String first = firstLine();
         Assertions.assertTrue(first.startsWith("::warning "));
         Assertions.assertTrue(first.endsWith(": NPE"));
     }
@@ -230,7 +243,7 @@ public final class CoreTests {
     @Test
     public void testError(){
         Workflow.error("Error message");
-        final String first = OUT.toString().trim().split("%0A")[0];
+        final String first = firstLine();
         Assertions.assertTrue(first.startsWith("::error "));
         Assertions.assertTrue(first.endsWith(": Error message"));
     }
@@ -238,7 +251,7 @@ public final class CoreTests {
     @Test
     public void testErrorEscapes(){
         Workflow.error("Error message\r");
-        final String first = OUT.toString().trim().split("%0A")[0];
+        final String first = firstLine();
         Assertions.assertTrue(first.startsWith("::error "));
         Assertions.assertTrue(first.endsWith(": Error message%0D"));
     }
@@ -247,7 +260,16 @@ public final class CoreTests {
     public void testErrorException(){
         final NullPointerException exception = new NullPointerException("NPE");
         Workflow.error(exception);
-        final String first = OUT.toString().trim().split("%0A")[0];
+        final String first = firstLine();
+        Assertions.assertTrue(first.startsWith("::error "));
+        Assertions.assertTrue(first.endsWith(": NPE"));
+    }
+
+    @Test
+    public void testErrorThrowable(){
+        final NullPointerException exception = new NullPointerException("NPE");
+        Assertions.assertThrows(NullPointerException.class, () -> Workflow.throwError(exception));
+        final String first = firstLine();
         Assertions.assertTrue(first.startsWith("::error "));
         Assertions.assertTrue(first.endsWith(": NPE"));
     }

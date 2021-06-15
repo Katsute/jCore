@@ -250,6 +250,9 @@ public abstract class Workflow {
      * @param error error message
      *
      * @see #error(String)
+     * @see #error(Throwable)
+     * @see #errorSupplier(String)
+     * @see #throwError(Throwable)
      * @since 1.0.0
      */
     public static void setFailed(final String error){
@@ -303,6 +306,8 @@ public abstract class Workflow {
      * @param warning message to print
      *
      * @see #warning(Throwable)
+     * @see #warningSupplier(String)
+     * @see #throwWarning(Throwable)
      * @since 1.0.0
      */
     public static void warning(final String warning){
@@ -316,18 +321,29 @@ public abstract class Workflow {
      * @param throwable throwable
      *
      * @see #warning(String)
+     * @see #warningSupplier(String)
+     * @see #throwWarning(Throwable)
      * @since 1.0.0
      */
     public static void warning(final Throwable throwable){
         warning(throwable.getStackTrace(), throwable.getMessage());
     }
 
-    private static void warning(final StackTraceElement[] trace, final String message){
-        issueCommand("warning", new LinkedHashMap<String,Object>(){{
-            put("file", getFile(trace[0]));
-            put("line", trace[0].getLineNumber());
-            put("col", 1);
-        }}, getTraceMessage(trace, message));
+    /**
+     * Prints a warning message and rethrows the exception.
+     *
+     * @param throwable throwable
+     * @param <T> type of throwable
+     * @throws T throwable
+     *
+     * @see #warning(String)
+     * @see #warning(Throwable)
+     * @see #warningSupplier(String)
+     * @since 1.0.0
+     */
+    public static <T extends Throwable> void throwWarning(final T throwable) throws T{
+        warning(throwable);
+        throw throwable;
     }
 
     /**
@@ -336,6 +352,9 @@ public abstract class Workflow {
      * @param warning message to print
      * @return warning message
      *
+     * @see #warning(String)
+     * @see #warning(Throwable)
+     * @see #throwWarning(Throwable)
      * @since 1.0.0
      */
     public static Supplier<String> warningSupplier(final String warning){
@@ -347,13 +366,24 @@ public abstract class Workflow {
         };
     }
 
+    private static void warning(final StackTraceElement[] trace, final String message){
+        issueCommand("warning", new LinkedHashMap<String,Object>(){{
+            put("file", getFile(trace[0]));
+            put("line", trace[0].getLineNumber());
+            put("col", 1);
+        }}, getTraceMessage(trace, message));
+    }
+
     /**
      * Prints an error message.
      *
      * @param error message to print
      *
      * @see #error(Throwable)
+     * @see #errorSupplier(String)
+     * @see #throwError(Throwable)
      * @see #setFailed(String)
+     * @since 1.0.0
      */
     public static void error(final String error){
         final Throwable throwable = new Throwable();
@@ -366,18 +396,31 @@ public abstract class Workflow {
      * @param throwable throwable
      *
      * @see #error(String)
+     * @see #errorSupplier(String)
+     * @see #throwError(Throwable)
+     * @see #setFailed(String)
      * @since 1.0.0
      */
     public static void error(final Throwable throwable){
         error(throwable.getStackTrace(), throwable.getMessage());
     }
 
-    private static void error(final StackTraceElement[] trace, final String message){
-        issueCommand("error", new LinkedHashMap<String,Object>(){{
-            put("file", getFile(trace[0]));
-            put("line", trace[0].getLineNumber());
-            put("col", 1);
-        }}, getTraceMessage(trace, message));
+    /**
+     * Prints an error message and rethrows the exception.
+     *
+     * @param throwable throwable
+     * @param <T> type of throwable
+     * @throws T throwable
+     *
+     * @see #error(String)
+     * @see #error(Throwable)
+     * @see #errorSupplier(String)
+     * @see #setFailed(String)
+     * @since 1.0.0
+     */
+    public static <T extends Throwable> void throwError(final T throwable) throws T{
+        error(throwable);
+        throw throwable;
     }
 
     /**
@@ -386,6 +429,10 @@ public abstract class Workflow {
      * @param error message to print
      * @return error message
      *
+     * @see #error(String)
+     * @see #error(Throwable)
+     * @see #throwError(Throwable)
+     * @see #setFailed(String)
      * @since 1.0.0
      */
     public static Supplier<String> errorSupplier(final String error){
@@ -395,6 +442,14 @@ public abstract class Workflow {
                 error(Arrays.copyOfRange(throwable.getStackTrace(), 1, throwable.getStackTrace().length), error);
             return error;
         };
+    }
+
+    private static void error(final StackTraceElement[] trace, final String message){
+        issueCommand("error", new LinkedHashMap<String,Object>(){{
+            put("file", getFile(trace[0]));
+            put("line", trace[0].getLineNumber());
+            put("col", 1);
+        }}, getTraceMessage(trace, message));
     }
 
     /**
@@ -527,8 +582,7 @@ public abstract class Workflow {
     private static final String repository  = System.getenv("GITHUB_REPOSITORY");
     private static final String SHA         = System.getenv("GITHUB_SHA");
 
-    //private static final boolean CI = "true".equals(System.getenv("CI"));
-    private static final boolean CI = true;
+    private static final boolean CI = "true".equals(System.getenv("CI"));
 
     @SuppressWarnings("ConstantConditions")
     private static String getFile(final StackTraceElement traceElement){
@@ -544,11 +598,14 @@ public abstract class Workflow {
     private static String getTraceMessage(final StackTraceElement[] stacktrace, final String message){
         final StackTraceElement cause = stacktrace[0];
         final StringBuilder output = new StringBuilder();
-        output.append("https://github.com/")
-              .append(repository).append('/').append("blob").append('/')
-              .append(SHA).append('/')
-              .append(getFile(cause))
-              .append("#L").append(cause.getLineNumber());
+        if(CI)
+            output
+                .append("https://github.com/")
+                .append(repository).append('/').append("blob").append('/')
+                .append(SHA).append('/');
+        output
+            .append(getFile(cause))
+            .append("#L").append(cause.getLineNumber());
         if(message != null)
             output.append(" : ").append(message);
         output.append('\n');
