@@ -282,11 +282,7 @@ public abstract class Workflow {
      * @since 1.0.0
      */
     public static boolean isDebug(){
-        try{
-            return System.getenv("RUNNER_DEBUG").equals("1");
-        }catch(final Throwable ignored){
-            return false;
-        }
+        return "1".equals(System.getenv("RUNNER_DEBUG"));
     }
 
     /**
