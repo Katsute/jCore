@@ -31,8 +31,8 @@ jobs:
     environment: Maven Central
     needs: java_ci
     steps:
-      - name: 📚 Install OpenJDK
-        uses: AdoptOpenJDK/install-jdk@v1.1.1
+      - name: 📤 Checkout Repository
+        uses: actions/checkout@v2.3.4
 
       - name: 🔐 Import GPG key
         uses: crazy-max/ghaction-import-gpg@v3.1.0
@@ -40,7 +40,7 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: ☕ Install OpenJDK
+      - name: 📚 Install OpenJDK
         uses: AdoptOpenJDK/install-jdk@v1.1.1
         with:
           version: '11'
