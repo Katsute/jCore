@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy to Maven Central
 
 on:
   release:
@@ -13,26 +13,26 @@ jobs:
         jdk: [8, 9, 11, 16]
       fail-fast: false
     steps:
-      - name: 📦 Prepate Git Repo
+      - name: 📤 Checkout Repository
         uses: actions/checkout@v2.3.4
 
-      - name: ☕ Install OpenJDK
+      - name: 📚 Install OpenJDK
         uses: AdoptOpenJDK/install-jdk@v1.1.1
         with:
           version: ${{ matrix.jdk }}
           architecture: x64
 
-      - name: ✔ Test with Maven
-        run: mvn test -fae --no-transfer-progress
+      - name: 📦 Compile with Maven
+        run: mvn compile -Dmaven.test.skip=true --no-transfer-progress
 
   deploy:
-    name: Deploy
+    name: Deploy to Maven Central
     runs-on: ubuntu-latest
     environment: Maven Central
     needs: java_ci
     steps:
-      - name: 📦 Prepate Git Repo
-        uses: actions/checkout@v2.3.4
+      - name: 📚 Install OpenJDK
+        uses: AdoptOpenJDK/install-jdk@v1.1.1
 
       - name: 🔐 Import GPG key
         uses: crazy-max/ghaction-import-gpg@v3.1.0
