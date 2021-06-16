@@ -117,7 +117,6 @@
                     <archive>
                         <manifestEntries>
                             <Built-By>Katsute</Built-By>
-                            <Multi-Release>true</Multi-Release>
                         </manifestEntries>
                     </archive>
                     <skip>true</skip>
