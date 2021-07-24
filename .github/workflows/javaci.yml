@@ -42,6 +42,14 @@ jobs:
           version: ${{ matrix.jdk }}
           architecture: x64
 
+      - name: 📤 Load Cache
+        uses: actions/cache@v2.1.6
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - id: mvn
         name: ✔ Test with Maven
         run: mvn test -fae --no-transfer-progress
