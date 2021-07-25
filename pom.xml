@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.kttdevelopment</groupId>
-    <artifactId>jCore</artifactId>
+    <groupId>dev.katsute</groupId>
+    <artifactId>jcore</artifactId>
     <version>1.0.0</version>
 
     <profiles>
@@ -66,15 +66,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <name>jCore</name>
+    <name>JCore</name>
     <description>Java library for GitHub Workflow commands</description>
-    <url>https://github.com/Katsute/jCore</url>
+    <url>https://github.com/KatsuteDev/JCore</url>
 
     <licenses>
         <license>
             <name>GPL-2</name>
             <distribution>repo</distribution>
-            <url>https://github.com/Katsute/jCore/blob/main/LICENSE</url>
+            <url>https://github.com/KatsuteDev/JCore/blob/main/LICENSE</url>
         </license>
     </licenses>
 
@@ -85,15 +85,15 @@
                 <role>developer</role>
             </roles>
             <url>https://github.com/Katsute</url>
-            <organization>Ktt-Development</organization>
-            <organizationUrl>https://github.com/Ktt-Development</organizationUrl>
+            <organization>KatsuteDev</organization>
+            <organizationUrl>https://github.com/KatsuteDev</organizationUrl>
         </developer>
     </developers>
 
     <scm>
-        <url>https://github.com/Katsute/jCore.git</url>
-        <connection>scm:git:git@github.com:Katsute/jCore.git</connection>
-        <developerConnection>scm:git:git@github.com:Katsute/jCore.git</developerConnection>
+        <url>https://github.com/KatsuteDev/JCore.git</url>
+        <connection>scm:git:git@github.com:KatsuteDev/JCore.git</connection>
+        <developerConnection>scm:git:git@github.com:KatsuteDev/JCore.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 

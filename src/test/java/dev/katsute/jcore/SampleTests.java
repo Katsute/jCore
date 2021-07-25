@@ -1,4 +1,4 @@
-package com.kttdevelopment.jcore;
+package dev.katsute.jcore;
 
 import org.junit.jupiter.api.*;
 
