@@ -1,19 +1,19 @@
 <div align="center">
-    <h1 align="center">jCore - Java library for GitHub workflow commands</h3>
+    <h1 align="center">JCore - Java library for GitHub workflow commands</h3>
     <p align="center">
-        <a href="https://jCore.katsute.dev/">Documentation</a>
+        <a href="https://docs.katsute.dev/jcore">Documentation</a>
         •
-        <a href="https://github.com/Katsute/jCore/issues">Issues</a>
+        <a href="https://github.com/KatsuteDev/JCore/issues">Issues</a>
     </p>
 </div>
 
 <div align="center">
-    <a href="https://github.com/Katsute/jCore/actions/workflows/java_ci.yml"><img alt="Java CI" src="https://github.com/Katsute/jCore/workflows/Java%20CI/badge.svg"></a>
-    <a href="https://github.com/Katsute/jCore/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://github.com/Katsute/jCore/actions/workflows/codeql.yml/badge.svg"></a>
-    <a href="https://github.com/Katsute/jCore/actions/workflows/release.yml"><img alt="Deploy" src="https://github.com/Katsute/jCore/actions/workflows/release.yml/badge.svg"></a>
-    <a href="https://mvnrepository.com/artifact/com.kttdevelopment/jCore"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/com.kttdevelopment/jCore"></a>
-    <a href="https://github.com/Katsute/jCore/releases"><img alt="version" src="https://img.shields.io/github/v/release/Katsute/jCore"></a>
-    <a href="https://github.com/Katsute/jCore/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/github/license/Katsute/jCore"></a>
+    <a href="https://github.com/KatsuteDev/JCore/actions/workflows/java_ci.yml"><img alt="Java CI" src="https://github.com/KatsuteDev/JCore/workflows/Java%20CI/badge.svg"></a>
+    <a href="https://github.com/KatsuteDev/JCore/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://github.com/KatsuteDev/JCore/actions/workflows/codeql.yml/badge.svg"></a>
+    <a href="https://github.com/KatsuteDev/JCore/actions/workflows/release.yml"><img alt="Deploy" src="https://github.com/KatsuteDev/JCore/actions/workflows/release.yml/badge.svg"></a>
+    <a href="https://mvnrepository.com/artifact/dev.katsute/jcore"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/dev.katsute/jcore"></a>
+    <a href="https://github.com/KatsuteDev/JCore/releases"><img alt="version" src="https://img.shields.io/github/v/release/KatsuteDev/JCore"></a>
+    <a href="https://github.com/KatsuteDev/JCore/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/github/license/KatsuteDev/JCore"></a>
 </div>
 
 ## Overview
@@ -56,8 +56,8 @@ Assumptions.assumeTrue(false, "expected expression to be true");
  - requires reading maven log to find warnings and errors
 
 <div align="center">
-    <a href="https://github.com/Katsute/jCore/blob/main/before.png">
-        <img src="https://raw.githubusercontent.com/Katsute/jCore/main/before.png">
+    <a href="https://github.com/KatsuteDev/JCore/blob/main/before.png">
+        <img src="https://raw.githubusercontent.com/KatsuteDev/JCore/main/before.png">
     </a>
 </div>
 
@@ -74,15 +74,15 @@ Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to b
  - direct links to line error
 
 <div align="center">
-    <a href="https://github.com/Katsute/jCore/blob/main/after.png">
-        <img src="https://raw.githubusercontent.com/Katsute/jCore/main/after.png">
+    <a href="https://github.com/KatsuteDev/JCore/blob/main/after.png">
+        <img src="https://raw.githubusercontent.com/KatsuteDev/JCore/main/after.png">
     </a>
-    <a href="https://github.com/Katsute/jCore/blob/main/after.link.png">
-        <img src="https://raw.githubusercontent.com/Katsute/jCore/main/after.link.png">
+    <a href="https://github.com/KatsuteDev/JCore/blob/main/after.link.png">
+        <img src="https://raw.githubusercontent.com/KatsuteDev/JCore/main/after.link.png">
     </a>
 </div>
 
 ## Contributing
 
- - Found a bug? Post it in [issues](https://github.com/Katsute/jCore/issues).
- - Want to further expand our project? [Fork](https://github.com/Katsute/jCore/fork) this repository and submit a [pull request](https://github.com/Katsute/jCore/pulls).
+ - Found a bug? Post it in [issues](https://github.com/KatsuteDev/JCore/issues).
+ - Want to further expand our project? [Fork](https://github.com/KatsuteDev/JCore/fork) this repository and submit a [pull request](https://github.com/KatsuteDev/JCore/pulls).
