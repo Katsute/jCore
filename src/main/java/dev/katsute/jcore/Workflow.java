@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.kttdevelopment.jcore;
+package dev.katsute.jcore;
 
 import java.util.*;
 import java.util.function.Supplier;
