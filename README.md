@@ -30,7 +30,7 @@ jCore supports most GitHub workflow commands.
    Workflow.warning("warning");
    Workflow.error("error");
    ```
- - Grouos
+ - Groups
    ```java
    Workflow.startGroup("my-group");
    ```
