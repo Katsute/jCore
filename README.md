@@ -8,8 +8,7 @@
 </div>
 
 <div align="center">
-    <a href="https://github.com/KatsuteDev/JCore/actions/workflows/java_ci.yml"><img alt="Java CI" src="https://github.com/KatsuteDev/JCore/workflows/Java%20CI/badge.svg"></a>
-    <a href="https://github.com/KatsuteDev/JCore/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://github.com/KatsuteDev/JCore/actions/workflows/codeql.yml/badge.svg"></a>
+    <a href="https://github.com/KatsuteDev/JCore/actions/workflows/java_ci.yml"><img alt="Java CI" src="https://github.com/KatsuteDev/JCore/actions/workflows/java_ci.yml/badge.svg"></a>
     <a href="https://github.com/KatsuteDev/JCore/actions/workflows/release.yml"><img alt="Deploy" src="https://github.com/KatsuteDev/JCore/actions/workflows/release.yml/badge.svg"></a>
     <a href="https://mvnrepository.com/artifact/dev.katsute/jcore"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/dev.katsute/jcore"></a>
     <a href="https://github.com/KatsuteDev/JCore/releases"><img alt="version" src="https://img.shields.io/github/v/release/KatsuteDev/JCore"></a>
@@ -27,8 +26,19 @@ jCore supports most GitHub workflow commands.
    ```java
    Workflow.info("info");
    Workflow.debug("debug");
+   Workflow.notice("notice");
    Workflow.warning("warning");
    Workflow.error("error");
+   ```
+ - AnnotationProperties
+   ```java
+   new AnnotationProperties.Builder()
+      .title("A title")
+      .startColumn(1)
+      .endColumn(2)
+      .startLine(3)
+      .endLine(4)
+      .build()
    ```
  - Groups
    ```java

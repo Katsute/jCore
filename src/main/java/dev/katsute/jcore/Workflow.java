@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Katsute
+ * Copyright (C) 2021 Katsute <https://github.com/Katsute>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -299,10 +299,48 @@ public abstract class Workflow {
     }
 
     /**
+     * Prints a notice annotation.
+     *
+     * @param notice message to print
+     *
+     * @see #notice(String)
+     * @since 1.1.0
+     */
+    public static void notice(final String notice){
+        notice(notice, null);
+    }
+
+    /**
+     * Prints a notice annotation.
+     *
+     * @param notice message to print
+     * @param properties optional {@link AnnotationProperties}
+     *
+     * @see AnnotationProperties
+     * @see #notice(String)
+     * @since 1.1.0
+     */
+    public static void notice(final String notice, final AnnotationProperties properties){
+        issueCommand("notice", properties == null ? null : new LinkedHashMap<String,Object>(){{
+            if(properties.title != null)
+                put("title", properties.title);
+            if(properties.startColumn != null)
+                put("col", properties.startColumn);
+            if(properties.endColumn != null)
+                put("endColumn", properties.endColumn);
+            if(properties.startLine != null)
+                put("line", properties.startLine);
+            if(properties.endLine != null)
+                put("endLine", properties.endLine);
+        }}, notice);
+    }
+
+    /**
      * Prints a warning message.
      *
      * @param warning message to print
      *
+     * @see #warning(String, AnnotationProperties)
      * @see #warning(Throwable)
      * @see #warningSupplier(String)
      * @see #throwWarning(Throwable)
@@ -316,9 +354,37 @@ public abstract class Workflow {
     /**
      * Prints a warning message.
      *
+     * @param warning message to print
+     * @param properties optional {@link AnnotationProperties}
+     *
+     * @see AnnotationProperties
+     * @see #warning(String)
+     * @see #warning(Throwable)
+     * @see #warningSupplier(String)
+     * @see #throwWarning(Throwable)
+     */
+    public static void warning(final String warning, final AnnotationProperties properties){
+        issueCommand("warning", properties == null ? null : new LinkedHashMap<String,Object>(){{
+            if(properties.title != null)
+                put("title", properties.title);
+            if(properties.startColumn != null)
+                put("col", properties.startColumn);
+            if(properties.endColumn != null)
+                put("endColumn", properties.endColumn);
+            if(properties.startLine != null)
+                put("line", properties.startLine);
+            if(properties.endLine != null)
+                put("endLine", properties.endLine);
+        }}, warning);
+    }
+
+    /**
+     * Prints a warning message.
+     *
      * @param throwable throwable
      *
      * @see #warning(String)
+     * @see #warning(String, AnnotationProperties)
      * @see #warningSupplier(String)
      * @see #throwWarning(Throwable)
      * @since 1.0.0
@@ -335,6 +401,7 @@ public abstract class Workflow {
      * @throws T throwable
      *
      * @see #warning(String)
+     * @see #warning(String, AnnotationProperties)
      * @see #warning(Throwable)
      * @see #warningSupplier(String)
      * @since 1.0.0
@@ -351,6 +418,7 @@ public abstract class Workflow {
      * @return warning message
      *
      * @see #warning(String)
+     * @see #warning(String, AnnotationProperties)
      * @see #warning(Throwable)
      * @see #throwWarning(Throwable)
      * @since 1.0.0
@@ -377,6 +445,7 @@ public abstract class Workflow {
      *
      * @param error message to print
      *
+     * @see #error(String, AnnotationProperties)
      * @see #error(Throwable)
      * @see #errorSupplier(String)
      * @see #throwError(Throwable)
@@ -391,8 +460,37 @@ public abstract class Workflow {
     /**
      * Prints an error message.
      *
+     * @param error message to print
+     * @param properties optional {@link AnnotationProperties}
+     *
+     * @see AnnotationProperties
+     * @see #error(String)
+     * @see #error(Throwable)
+     * @see #errorSupplier(String)
+     * @see #throwError(Throwable)
+     * @see #setFailed(String)
+     */
+    public static void error(final String error, final AnnotationProperties properties){
+        issueCommand("error", properties == null ? null : new LinkedHashMap<String,Object>(){{
+            if(properties.title != null)
+                put("title", properties.title);
+            if(properties.startColumn != null)
+                put("col", properties.startColumn);
+            if(properties.endColumn != null)
+                put("endColumn", properties.endColumn);
+            if(properties.startLine != null)
+                put("line", properties.startLine);
+            if(properties.endLine != null)
+                put("endLine", properties.endLine);
+        }}, error);
+    }
+
+    /**
+     * Prints an error message.
+     *
      * @param throwable throwable
      *
+     * @see #error(String, AnnotationProperties)
      * @see #error(String)
      * @see #errorSupplier(String)
      * @see #throwError(Throwable)
@@ -411,6 +509,7 @@ public abstract class Workflow {
      * @throws T throwable
      *
      * @see #error(String)
+     * @see #error(String, AnnotationProperties)
      * @see #error(Throwable)
      * @see #errorSupplier(String)
      * @see #setFailed(String)
@@ -428,6 +527,7 @@ public abstract class Workflow {
      * @return error message
      *
      * @see #error(String)
+     * @see #error(String, AnnotationProperties)
      * @see #error(Throwable)
      * @see #throwError(Throwable)
      * @see #setFailed(String)
