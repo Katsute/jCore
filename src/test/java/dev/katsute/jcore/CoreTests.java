@@ -202,6 +202,34 @@ public final class CoreTests {
         Assertions.assertEquals("::debug::%0D%0Adebug%0A", OUT.toString().trim());
     }
 
+    // ----- notice ---------------
+
+    @Test
+    public void testNotice(){
+        Workflow.notice("Notice");
+        Assertions.assertEquals(firstLine(), "::notice::Notice");
+    }
+
+    @Test
+    public void testNoticeNullProperties(){
+        Workflow.notice("Notice", null);
+        Assertions.assertEquals(firstLine(), "::notice::Notice");
+    }
+
+    @Test
+    public void testNoticeProperties(){
+        Workflow.notice(
+            "Notice",
+            new AnnotationProperties.Builder()
+                .title("A title")
+                .startColumn(1)
+                .endColumn(2)
+                .startLine(3)
+                .endLine(4)
+                .build());
+        Assertions.assertEquals(firstLine(), "::notice title=A title,col=1,endColumn=2,line=3,endLine=4::Notice");
+    }
+
     // ----- warning ---------------
 
     @Test
@@ -210,6 +238,26 @@ public final class CoreTests {
         final String first = firstLine();
         Assertions.assertTrue(first.startsWith("::warning "));
         Assertions.assertTrue(first.endsWith(": Warning"));
+    }
+
+    @Test
+    public void testWarningNullProperties(){
+        Workflow.warning("Warning", null);
+        Assertions.assertEquals(firstLine(), "::warning::Warning");
+    }
+
+    @Test
+    public void testWarningProperties(){
+        Workflow.warning(
+            "Warning",
+            new AnnotationProperties.Builder()
+                .title("A title")
+                .startColumn(1)
+                .endColumn(2)
+                .startLine(3)
+                .endLine(4)
+                .build());
+        Assertions.assertEquals(firstLine(), "::warning title=A title,col=1,endColumn=2,line=3,endLine=4::Warning");
     }
 
     @Test
@@ -246,6 +294,26 @@ public final class CoreTests {
         final String first = firstLine();
         Assertions.assertTrue(first.startsWith("::error "));
         Assertions.assertTrue(first.endsWith(": Error message"));
+    }
+
+    @Test
+    public void testErrorNullProperties(){
+        Workflow.error("Error", null);
+        Assertions.assertEquals(firstLine(), "::error::Error");
+    }
+
+    @Test
+    public void testErrorProperties(){
+        Workflow.error(
+            "Error",
+            new AnnotationProperties.Builder()
+                .title("A title")
+                .startColumn(1)
+                .endColumn(2)
+                .startLine(3)
+                .endLine(4)
+                .build());
+        Assertions.assertEquals(firstLine(), "::error title=A title,col=1,endColumn=2,line=3,endLine=4::Error");
     }
 
     @Test
