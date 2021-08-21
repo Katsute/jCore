@@ -26,7 +26,7 @@ import java.util.function.Supplier;
  *
  * @author Katsute
  * @since 1.0.0
- * @version 1.0.0
+ * @version 1.1.0
  */
 public abstract class Workflow {
 
