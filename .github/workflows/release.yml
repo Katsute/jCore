@@ -5,31 +5,113 @@ on:
     types: [published]
 
 jobs:
-  java_ci:
-    name: Java CI
+build:
+    name: Compile (Java ${{ matrix.jdk }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        jdk: [8, 9, 11, 16]
+        jdk: [8, 11, 16]
       fail-fast: false
     steps:
       - name: 📤 Checkout Repository
         uses: actions/checkout@v2.3.4
 
-      - name: 📚 Install OpenJDK
-        uses: AdoptOpenJDK/install-jdk@v1.1.1
+      - name: ☕ Install Java
+        uses: actions/setup-java@v2.3.0
         with:
-          version: ${{ matrix.jdk }}
           architecture: x64
+          distribution: temurin
+          java-version: ${{ matrix.jdk }}
+          cache: maven
 
-      - name: 📦 Compile with Maven
-        run: mvn compile -Dmaven.test.skip=true --no-transfer-progress
+      - name: ✔ Compile with Maven
+        run: mvn compile -DskipTests --no-transfer-progress
+
+  codeql:
+    name: CodeQL (Java 11)
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      matrix:
+        jdk: [11]
+      fail-fast: false
+    steps:
+      - name: 📤 Checkout Repository
+        uses: actions/checkout@v2.3.4
+
+      - name: 📚 Install CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: java
+
+      - name: ☕ Install Java
+        uses: actions/setup-java@v2.3.0
+        with:
+          architecture: x64
+          distribution: temurin
+          java-version: 11
+          cache: maven
+
+      - name: ✔ Compile with Maven
+        run: mvn compile -DskipTests --no-transfer-progress
+
+      - name: ✔ Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+
+  test:
+    name: Test (Java ${{ matrix.jdk }})
+    runs-on: ubuntu-latest
+    needs: codeql
+    strategy:
+      matrix:
+        jdk: [8, 11, 16]
+      fail-fast: false
+    env:
+      INPUT_INPUT: 'val'
+      INPUT_SPECIAL_CHARS: "'	\"\\ response "
+      INPUT_MULTIPLE_SPACE_VARIABLE: 'I have multiple spaces'
+      INPUT_MULTIPLE_LINES: |
+        val1
+        val2
+        val3
+      INPUT_WHITESPACE: '  some val  '
+      INPUT_BOOLEAN: 'true'
+      INPUT_TRUE1: 'true'
+      INPUT_TRUE2: 'True'
+      INPUT_TRUE3: 'TRUE'
+      INPUT_FALSE1: 'false'
+      INPUT_FALSE2: 'False'
+      INPUT_FALSE3: 'FALSE'
+      INPUT_WRONG: 'wrong'
+      STATE_TEST_1: 'state_val'
+
+    steps:
+      - name: 📦 Prepare Git Repo
+        uses: actions/checkout@v2.3.4
+
+      - name: ☕ Install Java
+        uses: actions/setup-java@v2.3.0
+        with:
+          architecture: x64
+          distribution: temurin
+          java-version: ${{ matrix.jdk }}
+          cache: maven
+
+      - id: mvn
+        name: ✔ Test with Maven
+        run: mvn test -fae --no-transfer-progress
+
+      - name: ✔ Test Output
+        if: steps.mvn.outputs['some output'] != '1.01' && steps.mvn.outputs['some output'] != 'false' && steps.mvn.outputs['some output'] != 'some value'
+        run: |
+          echo "::set-failed::Output is missing"
+          exit 1
 
   deploy:
     name: Deploy to Maven Central
     runs-on: ubuntu-latest
     environment: Maven Central
-    needs: java_ci
+    needs: test
     steps:
       - name: 📤 Checkout Repository
         uses: actions/checkout@v2.3.4
