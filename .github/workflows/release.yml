@@ -21,7 +21,7 @@ jobs:
           java-version: 11
 
       - name: 🚀 Deploy to GitHub Packages
-        run: mvn deploy -B -Dmaven.test.skip=true
+        run: mvn deploy -B -Dmaven.test.skip=true -P github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -44,7 +44,7 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: 🚀 Deploy to Maven Central
-        run: mvn deploy -B -Dmaven.test.skip=true -P deploy
+        run: mvn deploy -B -Dmaven.test.skip=true -P ossrh
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.OSSRH_TOKEN }}
