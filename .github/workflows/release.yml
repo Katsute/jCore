@@ -25,6 +25,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: 🚀 Deploy to GitHub Releases
+        uses: AButler/upload-release-assets@v2.0
+        with:
+          files: 'target/*.jar'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: 📚 Setup Apache Maven Central
         uses: actions/setup-java@v2.3.0
         with:
@@ -43,9 +49,3 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.OSSRH_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-
-      - name: 🚀 Deploy to GitHub Releases
-        uses: AButler/upload-release-assets@v2.0
-        with:
-          files: 'target/*.jar'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
