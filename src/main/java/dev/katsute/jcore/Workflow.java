@@ -26,8 +26,9 @@ import java.util.function.Supplier;
  *
  * @author Katsute
  * @since 1.0.0
- * @version 1.1.0
+ * @version 1.2.0
  */
+@SuppressWarnings("GrazieInspection")
 public abstract class Workflow {
 
     private Workflow(){ }
@@ -304,6 +305,8 @@ public abstract class Workflow {
      * @param notice message to print
      *
      * @see #notice(String)
+     * @see #noticeSupplier(String)
+     * @see #noticeSupplier(String, AnnotationProperties)
      * @since 1.1.0
      */
     public static void notice(final String notice){
@@ -318,6 +321,8 @@ public abstract class Workflow {
      *
      * @see AnnotationProperties
      * @see #notice(String)
+     * @see #noticeSupplier(String)
+     * @see #noticeSupplier(String, AnnotationProperties)
      * @since 1.1.0
      */
     public static void notice(final String notice, final AnnotationProperties properties){
@@ -333,6 +338,42 @@ public abstract class Workflow {
             if(properties.endLine != null)
                 put("endLine", properties.endLine);
         }}, notice);
+    }
+
+    /**
+     * Creates a supplier that returns a notice message. Prints notice if running on CI.
+     *
+     * @param notice notice to print
+     * @return notice message
+     *
+     * @see #notice(String)
+     * @see #notice(String, AnnotationProperties)
+     * @see #noticeSupplier(String, AnnotationProperties)
+     * @since 1.2.0
+     */
+    public static Supplier<String> noticeSupplier(final String notice){
+        return noticeSupplier(notice, null);
+    }
+
+    /**
+     * Creates a supplier that returns a notice message. Prints notice if running on CI.
+     *
+     * @param notice notice to print
+     * @param properties optional {@link AnnotationProperties}
+     * @return notice message
+     *
+     * @see AnnotationProperties
+     * @see #notice(String)
+     * @see #notice(String, AnnotationProperties)
+     * @see #noticeSupplier(String)
+     * @since 1.2.0
+     */
+    public static Supplier<String> noticeSupplier(final String notice, AnnotationProperties properties){
+        return () -> {
+            if(CI)
+                notice(notice, properties);
+            return notice;
+        };
     }
 
     /**
