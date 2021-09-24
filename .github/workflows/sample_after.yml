@@ -9,11 +9,12 @@ jobs:
   java:
     name: java
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       sample_only: true
 
     steps:
-      - name: 📦 Prepare Git Repo
+      - name: 📤 Checkout Repository
         uses: actions/checkout@v2.3.4
 
       - name: ☕ Install Java

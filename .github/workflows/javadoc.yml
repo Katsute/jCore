@@ -5,8 +5,9 @@ jobs:
   javadoc:
     name: Generate Javadoc
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - name: 📦 Prepate Git Repo
+      - name: 📤 Checkout Repository
         uses: actions/checkout@v2.3.4
 
       - name: ☕ Install Java
@@ -17,10 +18,11 @@ jobs:
           java-version: 11
 
       - name: 📦 Package with Maven
-        run: mvn package -Dmaven.test.skip=true
+        run: mvn package -DskipTests --no-transfer-progress
 
-      - name: 📦 Upload Artifact
+      - name: 🚀 Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: javadoc
           path: target/*-javadoc.jar
+          retention-days: 1
