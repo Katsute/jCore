@@ -15,7 +15,7 @@ jobs:
         with:
           architecture: x64
           distribution: temurin
-          java-version: 11
+          java-version: 17
 
       - name: 📦 Package with Maven
         run: mvn package -DskipTests --no-transfer-progress

@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        jdk: [8, 11, 16]
+        jdk: [8, 11, 17]
       fail-fast: false
     steps:
       - name: 📤 Checkout Repository
@@ -29,7 +29,7 @@ jobs:
         run: mvn compile -DskipTests --no-transfer-progress
 
   codeql:
-    name: CodeQL (Java 11)
+    name: CodeQL (Java 17)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: build
@@ -48,7 +48,7 @@ jobs:
         with:
           architecture: x64
           distribution: temurin
-          java-version: 11
+          java-version: 17
           cache: maven
 
       - name: ✔ Compile with Maven
@@ -64,7 +64,7 @@ jobs:
     needs: codeql
     strategy:
       matrix:
-        jdk: [8, 11, 16]
+        jdk: [8, 11, 17]
       fail-fast: false
     env:
       INPUT_INPUT: 'val'
