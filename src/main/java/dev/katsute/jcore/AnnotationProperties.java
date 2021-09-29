@@ -24,11 +24,11 @@ package dev.katsute.jcore;
  * @see AnnotationProperties.Builder
  * @author Katsute
  * @since 1.1.0
- * @version 1.1.0
+ * @version 1.3.0
  */
 public class AnnotationProperties {
 
-    String title;
+    String title, file;
 
     Integer startColumn,
             endColumn,
@@ -39,13 +39,15 @@ public class AnnotationProperties {
      * Creates annotation properties.
      *
      * @param title the title for the annotation
+     * @param file file path
      * @param startColumn the start column for the annotation; startLine and endLine must match
      * @param endColumn the end column for the annotation; startLine and endLine must match
      * @param startLine the start line for the annotation
      * @param endLine the end line for the annotation
      */
-    public AnnotationProperties(final String title, final Integer startColumn, final Integer endColumn, final Integer startLine, final Integer endLine){
+    public AnnotationProperties(final String title, final String file, final Integer startColumn, final Integer endColumn, final Integer startLine, final Integer endLine){
         this.title = title;
+        this.file = file;
         this.startColumn = startColumn;
         this.endColumn = endColumn;
         this.startLine = startLine;
@@ -56,6 +58,7 @@ public class AnnotationProperties {
     public String toString(){
         return "AnnotationProperties{" +
                "title='" + title + '\'' +
+               ", file='" + file + '\'' +
                ", startColumn=" + startColumn +
                ", endColumn=" + endColumn +
                ", startLine=" + startLine +
@@ -73,7 +76,8 @@ public class AnnotationProperties {
      */
     public static class Builder {
 
-        private String  title;
+        private String  title,
+                        file;
         private Integer startColumn,
                         endColumn,
                         startLine,
@@ -101,11 +105,25 @@ public class AnnotationProperties {
         }
 
         /**
+         * The file path.
+         * 
+         * @param file file
+         * @return builder
+         * 
+         * @since 1.3.0
+         */
+        public final Builder file(final String file){
+            this.file = file;
+            return this;
+        }
+        
+        /**
          * The start column for the annotation; startLine and endLine must match.
          *
          * @param startColumn the start column for the annotation; startLine and endLine must match
          *
          * @return builder
+         * @since 1.1.0
          */
         public final Builder startColumn(final Integer startColumn){
             this.startColumn = startColumn;
@@ -159,13 +177,14 @@ public class AnnotationProperties {
          * @since 1.1.0
          */
         public final AnnotationProperties build(){
-            return new AnnotationProperties(title, startColumn, endColumn, startLine, endLine);
+            return new AnnotationProperties(title, file, startColumn, endColumn, startLine, endLine);
         }
 
         @Override
         public String toString(){
             return "Builder{" +
                    "title='" + title + '\'' +
+                   ", file='" + file + '\'' +
                    ", startColumn=" + startColumn +
                    ", endColumn=" + endColumn +
                    ", startLine=" + startLine +

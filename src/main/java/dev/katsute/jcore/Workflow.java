@@ -26,7 +26,7 @@ import java.util.function.Supplier;
  *
  * @author Katsute
  * @since 1.0.0
- * @version 1.2.0
+ * @version 1.3.0
  */
 @SuppressWarnings("GrazieInspection")
 public abstract class Workflow {
@@ -329,6 +329,8 @@ public abstract class Workflow {
         issueCommand("notice", properties == null ? null : new LinkedHashMap<String,Object>(){{
             if(properties.title != null)
                 put("title", properties.title);
+            if(properties.file != null)
+                put("file", properties.file);
             if(properties.startColumn != null)
                 put("col", properties.startColumn);
             if(properties.endColumn != null)
@@ -403,11 +405,14 @@ public abstract class Workflow {
      * @see #warning(Throwable)
      * @see #warningSupplier(String)
      * @see #throwWarning(Throwable)
+     * @since 1.1.0
      */
     public static void warning(final String warning, final AnnotationProperties properties){
         issueCommand("warning", properties == null ? null : new LinkedHashMap<String,Object>(){{
             if(properties.title != null)
                 put("title", properties.title);
+            if(properties.file != null)
+                put("file", properties.file);
             if(properties.startColumn != null)
                 put("col", properties.startColumn);
             if(properties.endColumn != null)
@@ -510,11 +515,14 @@ public abstract class Workflow {
      * @see #errorSupplier(String)
      * @see #throwError(Throwable)
      * @see #setFailed(String)
+     * @since 1.1.0
      */
     public static void error(final String error, final AnnotationProperties properties){
         issueCommand("error", properties == null ? null : new LinkedHashMap<String,Object>(){{
             if(properties.title != null)
                 put("title", properties.title);
+            if(properties.file != null)
+                put("file", properties.file);
             if(properties.startColumn != null)
                 put("col", properties.startColumn);
             if(properties.endColumn != null)

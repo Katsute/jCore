@@ -222,12 +222,13 @@ public final class CoreTests {
             "Notice",
             new AnnotationProperties.Builder()
                 .title("A title")
+                .file("root/test.txt")
                 .startColumn(1)
                 .endColumn(2)
                 .startLine(3)
                 .endLine(4)
                 .build());
-        Assertions.assertEquals(firstLine(), "::notice title=A title,col=1,endColumn=2,line=3,endLine=4::Notice");
+        Assertions.assertEquals(firstLine(), "::notice title=A title,file=root/test.txt,col=1,endColumn=2,line=3,endLine=4::Notice");
     }
 
     // ----- warning ---------------
@@ -252,12 +253,13 @@ public final class CoreTests {
             "Warning",
             new AnnotationProperties.Builder()
                 .title("A title")
+                .file("root/test.txt")
                 .startColumn(1)
                 .endColumn(2)
                 .startLine(3)
                 .endLine(4)
                 .build());
-        Assertions.assertEquals(firstLine(), "::warning title=A title,col=1,endColumn=2,line=3,endLine=4::Warning");
+        Assertions.assertEquals(firstLine(), "::warning title=A title,file=root/test.txt,col=1,endColumn=2,line=3,endLine=4::Warning");
     }
 
     @Test
@@ -308,12 +310,13 @@ public final class CoreTests {
             "Error",
             new AnnotationProperties.Builder()
                 .title("A title")
+                .file("root/test.txt")
                 .startColumn(1)
                 .endColumn(2)
                 .startLine(3)
                 .endLine(4)
                 .build());
-        Assertions.assertEquals(firstLine(), "::error title=A title,col=1,endColumn=2,line=3,endLine=4::Error");
+        Assertions.assertEquals(firstLine(), "::error title=A title,file=root/test.txt,col=1,endColumn=2,line=3,endLine=4::Error");
     }
 
     @Test
