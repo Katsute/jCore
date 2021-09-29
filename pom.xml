@@ -155,10 +155,6 @@
                     <additionalOptions>
                         <additionalOption>-public</additionalOption>
                     </additionalOptions>
-                    <additionalJOptions>
-                        <!-- fix undefined module -->
-                        <additionalJOption>--no-module-directories</additionalJOption>
-                    </additionalJOptions>
                 </configuration>
                 <executions>
                     <execution>
