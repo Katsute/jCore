@@ -42,6 +42,7 @@ jobs:
         uses: github/codeql-action/init@v1
         with:
           languages: java
+          queries: security-and-quality
 
       - name: ☕ Install Java
         uses: actions/setup-java@v2.4.0
