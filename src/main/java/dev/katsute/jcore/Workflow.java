@@ -26,7 +26,7 @@ import java.util.function.Supplier;
  *
  * @author Katsute
  * @since 1.0.0
- * @version 1.3.0
+ * @version 2.0.0
  */
 @SuppressWarnings("GrazieInspection")
 public abstract class Workflow {
@@ -726,13 +726,41 @@ public abstract class Workflow {
     // ----- test integration ---------------
 
     private static final Class<AssertionError> assertion = AssertionError.class;
+    private static final Class<?> assumption;
 
+    static{
+        Class<?> class_;
+        try{
+            //noinspection SpellCheckingInspection
+            class_ = Class.forName("org.opentest4j.IncompleteExecutionException");
+        }catch(final Throwable ignored){
+            class_ = null;
+        }
+        assumption = class_;
+    }
+
+    /**
+     * Annotates a test result. If an exception is thrown or an assertion fails, an error annotation will be printed. If an assumption fails a warning annotation will be printed.
+     *
+     * @param runnable {@link ThrowingRunnable}
+     *
+     * @see ThrowingRunnable
+     * @since 2.0.0
+     */
+    @SuppressWarnings("SpellCheckingInspection")
     public static void annotateTest(final ThrowingRunnable runnable){
         try{
             runnable.run();
         }catch(final Throwable e){
-            final boolean assumption = e.getClass().getSimpleName().equals("TestAbortedException");
-            final boolean assertion  = Workflow.assertion.isAssignableFrom(e.getClass());
+            final Class<?> eClass    = e.getClass();
+            final String eClassName  = eClass.getName();
+
+            final boolean assumption = Workflow.assumption != null
+                                       ? Workflow.assumption.isAssignableFrom(eClass)
+                                       : eClassName.equals("org.opentest4j.TestAbortedException") ||
+                                         eClassName.equals("org.opentest4j.TestSkippedException") ||
+                                         eClassName.equals("org.opentest4j.IncompleteExecutionException");
+            final boolean assertion  = Workflow.assertion.isAssignableFrom(eClass);
 
             int index = 0;
             for(final StackTraceElement element : e.getStackTrace())
@@ -741,7 +769,7 @@ public abstract class Workflow {
                 else
                     index++;
 
-            final StackTraceElement[] trace = assumption || assertion ? Arrays.copyOfRange(e.getStackTrace(), index - 1, e.getStackTrace().length): e.getStackTrace();
+            final StackTraceElement[] trace = assumption || assertion ? Arrays.copyOfRange(e.getStackTrace(), index - 1, e.getStackTrace().length) : e.getStackTrace();
 
             if(assumption)
                 warning(trace, e.getMessage());

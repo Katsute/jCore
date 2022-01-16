@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021-2022 Katsute <https://github.com/Katsute>
+ * Copyright (C) 2022 Katsute <https://github.com/Katsute>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +18,22 @@
 
 package dev.katsute.jcore;
 
+/**
+ * A throwing runnable.
+ *
+ * @author Katsute
+ * @since 2.0.0
+ * @version 2.0.0
+ */
 public interface ThrowingRunnable {
 
+    /**
+     * Runs a throwing code block.
+     *
+     * @throws Throwable exception
+     *
+     * @since 2.0.0
+     */
     void run() throws Throwable;
 
 }

@@ -68,6 +68,7 @@ jobs:
         jdk: [8, 11, 17]
       fail-fast: false
     env:
+      # CoreTests.TestInput
       INPUT_INPUT: 'val'
       INPUT_SPECIAL_CHARS: "'	\"\\ response "
       INPUT_MULTIPLE_SPACE_VARIABLE: 'I have multiple spaces'
@@ -84,8 +85,10 @@ jobs:
       INPUT_FALSE2: 'False'
       INPUT_FALSE3: 'FALSE'
       INPUT_WRONG: 'wrong'
+      # CoreTests.TestState
       STATE_TEST_1: 'state_val'
-      RUNNER_DEBUG: '1' # fix for pull_request event on dependabot
+      # fix for pull_request event on dependabot
+      RUNNER_DEBUG: '1'
 
     steps:
       - name: 📤 Checkout Repository
@@ -104,7 +107,10 @@ jobs:
         run: mvn test -fae --no-transfer-progress
 
       - name: ✔ Test Output
-        if: steps.mvn.outputs['some output'] != '1.01' && steps.mvn.outputs['some output'] != 'false' && steps.mvn.outputs['some output'] != 'some value'
+        if: |
+          steps.mvn.outputs['some output'] != '1.01' && 
+          steps.mvn.outputs['some output'] != 'false' && 
+          steps.mvn.outputs['some output'] != 'some value'
         run: |
           echo "::set-failed::Output is missing"
           exit 1
