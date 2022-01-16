@@ -1,4 +1,4 @@
-name: Sample
+name: Sample without JCore
 on:
   push: {}
   pull_request:
@@ -12,7 +12,7 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        sample: [true, false]
+        sample: [false]
     env:
       sample_only: ${{ matrix.sample }}
     steps:
