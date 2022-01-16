@@ -733,7 +733,15 @@ public abstract class Workflow {
         }catch(final Throwable e){
             final boolean assumption = e.getClass().getSimpleName().equals("TestAbortedException");
             final boolean assertion  = Workflow.assertion.isAssignableFrom(e.getClass());
-            final StackTraceElement[] trace = assumption || assertion ? Arrays.copyOfRange(e.getStackTrace(), 3, e.getStackTrace().length): e.getStackTrace();
+
+            int index = 0;
+            for(final StackTraceElement element : e.getStackTrace())
+                if(element.getClassName().equals("dev.katsute.jcore.Workflow"))
+                    break;
+                else
+                    index++;
+
+            final StackTraceElement[] trace = assumption || assertion ? Arrays.copyOfRange(e.getStackTrace(), index - 1, e.getStackTrace().length): e.getStackTrace();
 
             if(assumption)
                 warning(trace, e.getMessage());
