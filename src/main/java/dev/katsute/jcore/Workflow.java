@@ -730,9 +730,9 @@ public abstract class Workflow {
             runnable.run();
         }catch(final Throwable e){
             if(e.getClass().getSimpleName().equals("TestAbortedException"))
-                warning(Arrays.copyOfRange(e.getStackTrace(), 1, e.getStackTrace().length), e.getMessage());
+                warning(e.getStackTrace(), e.getMessage());
             else
-                error(Arrays.copyOfRange(e.getStackTrace(), 1, e.getStackTrace().length), e.getMessage());
+                error(e.getStackTrace(), e.getMessage());
             throw e instanceof RuntimeException ? ((RuntimeException) e) : new RuntimeException(e);
         }
     }
