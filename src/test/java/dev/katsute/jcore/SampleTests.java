@@ -3,7 +3,7 @@ package dev.katsute.jcore;
 import org.junit.jupiter.api.*;
 
 @SuppressWarnings({"SimplifiableAssertion", "ConstantConditions"})
-public final class SampleTests {
+final class SampleTests {
 
     @Nested
     final class JunitSampleTest {

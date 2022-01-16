@@ -800,7 +800,8 @@ public abstract class Workflow {
             .replaceFirst("^/", "")
             .replaceFirst("target/test-classes", "src/test/java")
             .replaceFirst("target/classes", "src/main/java")
-            .replaceAll("class$", "java");
+            .replaceAll("class$", "java")
+            .replaceAll("\\$.+$", "");
     }
 
     private static String getTraceMessage(final StackTraceElement[] stacktrace, final String message){

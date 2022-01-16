@@ -1,4 +1,4 @@
-name: Sample [Before]
+name: Sample
 on:
   push: {}
   pull_request:
@@ -7,12 +7,14 @@ permissions: read-all
 
 jobs:
   java:
-    name: java
+    name: Java (Sample ${{ matrix.sample }})
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      matrix:
+        sample: [true, false]
     env:
-      sample_only: false
-
+      sample_only: ${{ matrix.sample }}
     steps:
       - name: 📤 Checkout Repository
         uses: actions/checkout@v2.4.0
