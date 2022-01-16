@@ -304,7 +304,6 @@ public abstract class Workflow {
      * @param notice message to print
      *
      * @see #notice(String)
-     * @see #noticeSupplier(String, AnnotationProperties)
      * @since 1.1.0
      */
     public static void notice(final String notice){
@@ -319,7 +318,6 @@ public abstract class Workflow {
      *
      * @see AnnotationProperties
      * @see #notice(String)
-     * @see #noticeSupplier(String, AnnotationProperties)
      * @since 1.1.0
      */
     public static void notice(final String notice, final AnnotationProperties properties){
@@ -348,7 +346,6 @@ public abstract class Workflow {
      *
      * @see #notice(String)
      * @see #notice(String, AnnotationProperties)
-     * @see #noticeSupplier(String, AnnotationProperties)
      * @since 1.2.0
      */
     @Deprecated
