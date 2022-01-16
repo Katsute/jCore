@@ -18,6 +18,7 @@
 ## Overview
 
 JCore supports most GitHub workflow commands.
+
  - Inputs
    ```java
    Workflow.getInput("input")
@@ -48,46 +49,47 @@ JCore supports most GitHub workflow commands.
    ```java
    Workflow.addMask("secret value");
    ```
-View all features in the [documentation](https://jCore.katsute.dev/)
+
+View all features in the [documentation](https://docs.katsute.dev/jcore)
 
 ## JUnit Integration
 
 Add jCore to your JUnit test cases in order to see failures as annotations.
 
-### ❌ without jCore
+### ❌ without JCore
 
 ```java
-Assertions.assertTrue(false, "expected expression to be true");
+Assertions.assertTrue(false);
 
-Assumptions.assumeTrue(false, "expected expression to be true");
+Assumptions.assumeTrue(false);
 ```
 
- - no warning messages
- - requires reading maven log to find warnings and errors
+ - No warning messages.
+ - Requires reading Maven log to find warnings and errors.
 
 <div align="center">
-    <a href="https://github.com/KatsuteDev/JCore/blob/main/before.png">
+    <a href="https://github.com/KatsuteDev/JCore/actions/runs/1704996506">
         <img src="https://raw.githubusercontent.com/KatsuteDev/JCore/main/before.png">
     </a>
 </div>
 
-### ✔ with jCore
+### ✔ with JCore
 
 ```java
-Assertions.assertTrue(false, Workflow.errorSupplier("expected expression to be true"));
+Workflows.annotateTest(() -> Assertions.assertTrue(false));
 
-Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to be true"));
+Workflows.annotateTest(() -> Assumptions.assumeTrue(false));
 ```
 
- - annotations show warnings and errors
- - full stack traces in annotations
- - direct links to line error
+ - Annotations show warnings and errors.
+ - Full stack traces in annotations.
+ - Direct links to line error.
 
 <div align="center">
-    <a href="https://github.com/KatsuteDev/JCore/blob/main/after.png">
+    <a href="https://github.com/KatsuteDev/JCore/actions/runs/1704996503">
         <img src="https://raw.githubusercontent.com/KatsuteDev/JCore/main/after.png">
     </a>
-    <a href="https://github.com/KatsuteDev/JCore/blob/main/after.link.png">
+    <a href="https://github.com/KatsuteDev/JCore/blob/335e5c9d02912e789e04809b33c257193c1938a6/src/test/java/dev/katsute/jcore/SampleTests.java#L40">
         <img src="https://raw.githubusercontent.com/KatsuteDev/JCore/main/after.link.png">
     </a>
 </div>
