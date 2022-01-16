@@ -7,7 +7,7 @@ permissions: read-all
 
 jobs:
   java:
-    name: Java (Sample ${{ matrix.sample }})
+    name: Java (JCore Enabled = ${{ matrix.sample }})
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:

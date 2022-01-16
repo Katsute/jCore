@@ -801,7 +801,7 @@ public abstract class Workflow {
             .replaceFirst("target/test-classes", "src/test/java")
             .replaceFirst("target/classes", "src/main/java")
             .replaceAll("class$", "java")
-            .replaceAll("\\$.+$", "");
+            .replaceAll("\\$.+$", ".java");
     }
 
     private static String getTraceMessage(final StackTraceElement[] stacktrace, final String message){
