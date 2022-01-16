@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Katsute <https://github.com/Katsute>
+ * Copyright (C) 2021-2022 Katsute <https://github.com/Katsute>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -106,17 +106,17 @@ public class AnnotationProperties {
 
         /**
          * The file path.
-         * 
+         *
          * @param file file
          * @return builder
-         * 
+         *
          * @since 1.3.0
          */
         public final Builder file(final String file){
             this.file = file;
             return this;
         }
-        
+
         /**
          * The start column for the annotation; startLine and endLine must match.
          *

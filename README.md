@@ -17,7 +17,7 @@
 
 ## Overview
 
-jCore supports most GitHub workflow commands.
+JCore supports most GitHub workflow commands.
  - Inputs
    ```java
    Workflow.getInput("input")
