@@ -1,4 +1,4 @@
-name: Sample with JCore
+name: Tests with JCore
 on:
   push: {}
   pull_request:
@@ -7,14 +7,11 @@ permissions: read-all
 
 jobs:
   java:
-    name: Java (JCore Enabled = ${{ matrix.sample }})
+    name: Java CI
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    strategy:
-      matrix:
-        sample: [true]
     env:
-      sample_only: ${{ matrix.sample }}
+      enable_jcore: true
     steps:
       - name: 📤 Checkout Repository
         uses: actions/checkout@v2.4.0

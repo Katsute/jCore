@@ -8,9 +8,10 @@ final class SampleTests {
     @Nested
     final class JunitSampleTest {
 
+        @SuppressWarnings("SpellCheckingInspection")
         @BeforeEach
         final void beforeEach(){
-            Assumptions.assumeTrue("false".equals(System.getenv("sample_only")));
+            Assumptions.assumeTrue("false".equals(System.getenv("enable_jcore")));
         }
 
         @Test
@@ -28,9 +29,10 @@ final class SampleTests {
     @Nested
     final class JCoreSampleTest {
 
+        @SuppressWarnings("SpellCheckingInspection")
         @BeforeEach
         final void beforeEach(){
-            Assumptions.assumeTrue("true".equals(System.getenv("sample_only")));
+            Assumptions.assumeTrue("true".equals(System.getenv("enable_jcore")));
         }
 
         @Test
