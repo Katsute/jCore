@@ -725,16 +725,27 @@ public abstract class Workflow {
 
     // ----- test integration ---------------
 
+    private static final Class<AssertionError> assertion = AssertionError.class;
+
     public static void annotateTest(final ThrowingRunnable runnable){
         try{
             runnable.run();
         }catch(final Throwable e){
-            if(e.getClass().getSimpleName().equals("TestAbortedException"))
-                warning(e.getStackTrace(), e.getMessage());
+            final boolean assumption = e.getClass().getSimpleName().equals("TestAbortedException");
+            final boolean assertion  = Workflow.assertion.isAssignableFrom(e.getClass());
+            final StackTraceElement[] trace = assumption || assertion ? Arrays.copyOfRange(e.getStackTrace(), 3, e.getStackTrace().length): e.getStackTrace();
+
+            if(assumption)
+                warning(trace, e.getMessage());
             else
-                error(e.getStackTrace(), e.getMessage());
-            throw e instanceof RuntimeException ? ((RuntimeException) e) : new RuntimeException(e);
+                error(trace, e.getMessage());
+            rethrow(e);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T extends Throwable> void rethrow(final Throwable e) throws T{
+        throw (T) e;
     }
 
     // ----- utility ---------------

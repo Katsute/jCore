@@ -1,6 +1,7 @@
 package dev.katsute.jcore;
 
 import org.junit.jupiter.api.*;
+import org.opentest4j.AssertionFailedError;
 
 import java.io.IOException;
 
@@ -31,6 +32,11 @@ public class TestJunit2 {
         Workflow.annotateTest(() -> {
             throw new IOException("uncaught");
         });
+    }
+
+    @Test
+    public final void test(){
+        Assertions.fail();
     }
 
 }
