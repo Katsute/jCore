@@ -784,6 +784,19 @@ public abstract class Workflow {
         throw (T) e;
     }
 
+    // ----- CI ---------------
+
+    /**
+     * Returns if running on CI.
+     *
+     * @return if CI
+     *
+     * @since 2.0.0
+     */
+    public static boolean isCI(){
+        return CI;
+    }
+
     // ----- utility ---------------
 
     private static final String workspace   = System.getenv("GITHUB_WORKSPACE");
