@@ -254,7 +254,6 @@ public abstract class Workflow {
      *
      * @see #error(String)
      * @see #error(Throwable)
-     * @see #errorSupplier(String)
      * @see #throwError(Throwable)
      * @since 1.0.0
      */
@@ -305,8 +304,6 @@ public abstract class Workflow {
      * @param notice message to print
      *
      * @see #notice(String)
-     * @see #noticeSupplier(String)
-     * @see #noticeSupplier(String, AnnotationProperties)
      * @since 1.1.0
      */
     public static void notice(final String notice){
@@ -321,8 +318,6 @@ public abstract class Workflow {
      *
      * @see AnnotationProperties
      * @see #notice(String)
-     * @see #noticeSupplier(String)
-     * @see #noticeSupplier(String, AnnotationProperties)
      * @since 1.1.0
      */
     public static void notice(final String notice, final AnnotationProperties properties){
@@ -345,14 +340,15 @@ public abstract class Workflow {
     /**
      * Creates a supplier that returns a notice message. Prints notice if running on CI.
      *
+     * @deprecated use {@link #annotateTest(ThrowingRunnable)}
      * @param notice notice to print
      * @return notice message
      *
      * @see #notice(String)
      * @see #notice(String, AnnotationProperties)
-     * @see #noticeSupplier(String, AnnotationProperties)
      * @since 1.2.0
      */
+    @Deprecated
     public static Supplier<String> noticeSupplier(final String notice){
         return noticeSupplier(notice, null);
     }
@@ -360,6 +356,7 @@ public abstract class Workflow {
     /**
      * Creates a supplier that returns a notice message. Prints notice if running on CI.
      *
+     * @deprecated use {@link #annotateTest(ThrowingRunnable)}
      * @param notice notice to print
      * @param properties optional {@link AnnotationProperties}
      * @return notice message
@@ -367,9 +364,9 @@ public abstract class Workflow {
      * @see AnnotationProperties
      * @see #notice(String)
      * @see #notice(String, AnnotationProperties)
-     * @see #noticeSupplier(String)
      * @since 1.2.0
      */
+    @Deprecated
     public static Supplier<String> noticeSupplier(final String notice, AnnotationProperties properties){
         return () -> {
             if(CI)
@@ -385,7 +382,6 @@ public abstract class Workflow {
      *
      * @see #warning(String, AnnotationProperties)
      * @see #warning(Throwable)
-     * @see #warningSupplier(String)
      * @see #throwWarning(Throwable)
      * @since 1.0.0
      */
@@ -403,7 +399,6 @@ public abstract class Workflow {
      * @see AnnotationProperties
      * @see #warning(String)
      * @see #warning(Throwable)
-     * @see #warningSupplier(String)
      * @see #throwWarning(Throwable)
      * @since 1.1.0
      */
@@ -431,7 +426,6 @@ public abstract class Workflow {
      *
      * @see #warning(String)
      * @see #warning(String, AnnotationProperties)
-     * @see #warningSupplier(String)
      * @see #throwWarning(Throwable)
      * @since 1.0.0
      */
@@ -449,7 +443,6 @@ public abstract class Workflow {
      * @see #warning(String)
      * @see #warning(String, AnnotationProperties)
      * @see #warning(Throwable)
-     * @see #warningSupplier(String)
      * @since 1.0.0
      */
     public static <T extends Throwable> void throwWarning(final T throwable) throws T{
@@ -460,6 +453,7 @@ public abstract class Workflow {
     /**
      * Creates a supplier that returns a warning message. Prints warning if running on CI.
      *
+     * @deprecated use {@link #annotateTest(ThrowingRunnable)}
      * @param warning message to print
      * @return warning message
      *
@@ -469,6 +463,7 @@ public abstract class Workflow {
      * @see #throwWarning(Throwable)
      * @since 1.0.0
      */
+    @Deprecated
     public static Supplier<String> warningSupplier(final String warning){
         final Throwable throwable = new Throwable();
         return () -> {
@@ -493,7 +488,6 @@ public abstract class Workflow {
      *
      * @see #error(String, AnnotationProperties)
      * @see #error(Throwable)
-     * @see #errorSupplier(String)
      * @see #throwError(Throwable)
      * @see #setFailed(String)
      * @since 1.0.0
@@ -512,7 +506,6 @@ public abstract class Workflow {
      * @see AnnotationProperties
      * @see #error(String)
      * @see #error(Throwable)
-     * @see #errorSupplier(String)
      * @see #throwError(Throwable)
      * @see #setFailed(String)
      * @since 1.1.0
@@ -541,7 +534,6 @@ public abstract class Workflow {
      *
      * @see #error(String, AnnotationProperties)
      * @see #error(String)
-     * @see #errorSupplier(String)
      * @see #throwError(Throwable)
      * @see #setFailed(String)
      * @since 1.0.0
@@ -560,7 +552,6 @@ public abstract class Workflow {
      * @see #error(String)
      * @see #error(String, AnnotationProperties)
      * @see #error(Throwable)
-     * @see #errorSupplier(String)
      * @see #setFailed(String)
      * @since 1.0.0
      */
@@ -572,6 +563,7 @@ public abstract class Workflow {
     /**
      * Creates a supplier that returns an error message. Prints error if running on CI.
      *
+     * @deprecated use {@link #annotateTest(ThrowingRunnable)}
      * @param error message to print
      * @return error message
      *
@@ -582,6 +574,7 @@ public abstract class Workflow {
      * @see #setFailed(String)
      * @since 1.0.0
      */
+    @Deprecated
     public static Supplier<String> errorSupplier(final String error){
         final Throwable throwable = new Throwable();
         return () -> {
