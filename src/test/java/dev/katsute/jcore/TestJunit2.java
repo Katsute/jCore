@@ -1,36 +1,36 @@
 package dev.katsute.jcore;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
+import org.junit.jupiter.api.*;
+
+import java.io.IOException;
 
 public class TestJunit2 {
 
     @Test
-    public final void test(){
-        rethrow(() -> Assertions.assertTrue(false));
+    public final void testWarning(){
+        Workflow.annotateTest(() -> Assumptions.assumeTrue(false));
     }
 
     @Test
-    public final void test2(){
-        Assertions.assertTrue(false);
+    public final void testWarning2(){
+        Workflow.annotateTest(() -> Assumptions.assumeTrue(false, "false?"));
     }
 
-    static void rethrow(final ThrowingRunnable runnable){
-        try{
-            runnable.run();
-        }catch(final AssertionFailedError e){
-            System.out.println("--- begin stack trace ---");
-            e.printStackTrace();
-            System.out.println("--- end stack trace ---");
-            throw e;
-        }
+    @Test
+    public final void testError(){
+        Workflow.annotateTest(() -> Assertions.assertTrue(false));
     }
 
-    interface ThrowingRunnable {
+    @Test
+    public final void testError2(){
+        Workflow.annotateTest(() -> Assertions.assertTrue(false, "false?"));
+    }
 
-        void run() throws AssertionFailedError;
-
+    @Test
+    public final void testException(){
+        Workflow.annotateTest(() -> {
+            throw new IOException("uncaught");
+        });
     }
 
 }

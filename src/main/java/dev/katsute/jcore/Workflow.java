@@ -723,6 +723,20 @@ public abstract class Workflow {
         }}, null);
     }
 
+    // ----- test integration ---------------
+
+    public static void annotateTest(final ThrowingRunnable runnable){
+        try{
+            runnable.run();
+        }catch(final Throwable e){
+            if(e.getClass().getSimpleName().equals("TestAbortedException"))
+                warning(Arrays.copyOfRange(e.getStackTrace(), 1, e.getStackTrace().length), e.getMessage());
+            else
+                error(Arrays.copyOfRange(e.getStackTrace(), 1, e.getStackTrace().length), e.getMessage());
+            throw e instanceof RuntimeException ? ((RuntimeException) e) : new RuntimeException(e);
+        }
+    }
+
     // ----- utility ---------------
 
     private static final String workspace   = System.getenv("GITHUB_WORKSPACE");
@@ -831,7 +845,6 @@ public abstract class Workflow {
             return (String) obj;
         else
             return obj.toString();
-        // todo: obj to json string
     }
 
 }
