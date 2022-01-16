@@ -444,4 +444,14 @@ final class CoreTests {
 
     }
 
+    @Nested
+    final class TestCI {
+
+        @Test
+        final void testCI(){
+            Assertions.assertEquals("true".equals(System.getenv("CI")), Workflow.isCI());
+        }
+
+    }
+
 }
