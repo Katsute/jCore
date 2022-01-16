@@ -1,4 +1,4 @@
-name: Sample [Before]
+name: Tests without JCore
 on:
   push: {}
   pull_request:
@@ -7,12 +7,11 @@ permissions: read-all
 
 jobs:
   java:
-    name: java
+    name: Java CI
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      sample_only: false
-
+      enable_jcore: false
     steps:
       - name: 📤 Checkout Repository
         uses: actions/checkout@v2.4.0

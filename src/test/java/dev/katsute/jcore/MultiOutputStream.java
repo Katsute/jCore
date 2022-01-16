@@ -3,11 +3,11 @@ package dev.katsute.jcore;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public final class MultiOutputStream extends OutputStream {
+final class MultiOutputStream extends OutputStream {
 
     private final OutputStream[] outputStreams;
 
-    public MultiOutputStream(final OutputStream... streams){
+    MultiOutputStream(final OutputStream... streams){
         this.outputStreams = streams;
     }
 

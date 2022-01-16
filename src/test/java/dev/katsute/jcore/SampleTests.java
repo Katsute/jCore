@@ -3,34 +3,48 @@ package dev.katsute.jcore;
 import org.junit.jupiter.api.*;
 
 @SuppressWarnings({"SimplifiableAssertion", "ConstantConditions"})
-public final class SampleTests {
+final class SampleTests {
 
-    @Test
-    public void testJUnitWarning(){
-        Assumptions.assumeTrue("false".equals(System.getenv("sample_only")));
+    @Nested
+    final class JunitSampleTest {
 
-        Assumptions.assumeTrue(false, "expected expression to be true");
-    }
-
-    @Test
-    public void testJUnitError(){
-        Assumptions.assumeTrue("false".equals(System.getenv("sample_only")));
-
-        Assertions.assertTrue(false, "expected expression to be true");
-    }
-
-    @Test
-    public void testJCoreWarning(){
-        Assumptions.assumeTrue("true".equals(System.getenv("sample_only")));
-
-        Assumptions.assumeTrue(false, Workflow.warningSupplier("expected expression to be true"));
-    }
+        @SuppressWarnings("SpellCheckingInspection")
+        @BeforeEach
+        final void beforeEach(){
+            Assumptions.assumeTrue("false".equals(System.getenv("enable_jcore")));
+        }
 
         @Test
-    public void testJCoreError(){
-        Assumptions.assumeTrue("true".equals(System.getenv("sample_only")));
+        final void testAssertion(){
+            Assertions.assertTrue(false, "expected expression to be true");
+        }
 
-        Assertions.assertTrue(false, Workflow.errorSupplier("expected expression to be true"));
+        @Test
+        final void testAssumption(){
+            Assumptions.assumeTrue(false, "expected expression to be true");
+        }
+
+    }
+
+    @Nested
+    final class JCoreSampleTest {
+
+        @SuppressWarnings("SpellCheckingInspection")
+        @BeforeEach
+        final void beforeEach(){
+            Assumptions.assumeTrue("true".equals(System.getenv("enable_jcore")));
+        }
+
+        @Test
+        final void testAssertion(){
+            Workflow.annotateTest(() -> Assertions.assertTrue(false));
+        }
+
+        @Test
+        final void testAssumption(){
+            Workflow.annotateTest(() -> Assumptions.assumeTrue(false));
+        }
+
     }
 
 }
