@@ -9,7 +9,6 @@
 
 <div align="center">
     <a href="https://github.com/KatsuteDev/JCore/actions/workflows/java_ci.yml"><img alt="Java CI" src="https://github.com/KatsuteDev/JCore/actions/workflows/java_ci.yml/badge.svg"></a>
-    <a href="https://github.com/KatsuteDev/JCore/actions/workflows/release.yml"><img alt="Deploy" src="https://github.com/KatsuteDev/JCore/actions/workflows/release.yml/badge.svg"></a>
     <a href="https://mvnrepository.com/artifact/dev.katsute/jcore"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/dev.katsute/jcore"></a>
     <a href="https://github.com/KatsuteDev/JCore/releases"><img alt="version" src="https://img.shields.io/github/v/release/KatsuteDev/JCore"></a>
     <a href="https://github.com/KatsuteDev/JCore/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/github/license/KatsuteDev/JCore"></a>
