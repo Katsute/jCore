@@ -53,7 +53,7 @@ View all features in the [documentation](https://docs.katsute.dev/jcore)
 
 ## JUnit Integration
 
-Add jCore to your JUnit test cases in order to see failures as annotations.
+Add JCore to your JUnit test cases in order to see failures as annotations.
 
 ### ❌ without JCore
 
