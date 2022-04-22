@@ -6,7 +6,7 @@
 
     <groupId>dev.katsute</groupId>
     <artifactId>jcore</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 
     <profiles>
         <profile>
@@ -164,10 +164,6 @@
                     <additionalOptions>
                         <additionalOption>-public</additionalOption>
                     </additionalOptions>
-                    <additionalJOptions>
-                        <!-- fix undefined module -->
-                        <additionalJOption>--no-module-directories</additionalJOption>
-                    </additionalJOptions>
                 </configuration>
                 <executions>
                     <execution>
