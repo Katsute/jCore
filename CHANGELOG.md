@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.0.1
+
+### 📘 Dependencies
+
+* Bump maven-javadoc-plugin from 3.3.1 to 3.3.2 https://github.com/KatsuteDev/JCore/pull/33 (@dependabot)
+* Bump maven-compiler-plugin from 3.9.0 to 3.10.0 https://github.com/KatsuteDev/JCore/pull/35 (@dependabot)
+* Bump actions/setup-java from 2.5.0 to 3 https://github.com/KatsuteDev/JCore/pull/39 (@dependabot)
+* Bump actions/checkout from 2.4.0 to 3 https://github.com/KatsuteDev/JCore/pull/40 (@dependabot)
+* Bump maven-compiler-plugin from 3.10.0 to 3.10.1 https://github.com/KatsuteDev/JCore/pull/41 (@dependabot)
+* Bump maven-surefire-plugin from 3.0.0-M5 to 3.0.0-M6 https://github.com/KatsuteDev/JCore/pull/42 (@dependabot)
+* Bump maven-javadoc-plugin from 3.3.2 to 3.4.0 https://github.com/KatsuteDev/JCore/pull/43 (@dependabot)
+* Bump nexus-staging-maven-plugin from 1.6.8 to 1.6.13 https://github.com/KatsuteDev/JCore/pull/45 (@dependabot)
+
+**Full Changelog**: https://github.com/KatsuteDev/JCore/compare/2.0.0...2.0.1
+
 ## 2.0.0
 
 ### ⭐ New Features
@@ -20,6 +35,8 @@
 * Bump actions/setup-java from 2.4.0 to 2.5.0 https://github.com/KatsuteDev/JCore/pull/25 (@dependabot)
 * Bump maven-compiler-plugin from 3.8.1 to 3.9.0 https://github.com/KatsuteDev/JCore/pull/29 (@dependabot)
 * Bump maven-jar-plugin from 3.2.0 to 3.2.2 https://github.com/KatsuteDev/JCore/pull/28 (@dependabot)
+
+**Full Changelog**: https://github.com/KatsuteDev/JCore/compare/1.3.0...2.0.0
 
 ## 1.3.0
 
